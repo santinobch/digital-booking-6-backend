@@ -53,7 +53,7 @@ public class CategoriaService implements BaseService<Categoria> {
     }
 
     @Override
-    public Categoria getById(Integer id) {
-        return null;
+    public Optional<Categoria> getById(Integer id) {
+        return categoriaRepository.findById(id);
     }
 }

@@ -47,4 +47,16 @@ public class CategoriaController {
         }
         return response;
     }
+
+    @GetMapping("/categoria/{id}")
+    public ResponseEntity<?> get(@PathVariable (value = "id", required = true) Integer id) {
+        ResponseEntity<?> response = null;
+        try {
+            response = ResponseEntity.ok(service.getById(id));
+        } catch (Exception e){
+            e.printStackTrace();
+            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return response;
+    }
 }
