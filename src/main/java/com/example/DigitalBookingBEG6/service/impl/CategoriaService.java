@@ -43,16 +43,12 @@ public class CategoriaService implements BaseService<Categoria> {
     }
 
     @Override
-    public boolean exist(Integer id) {
-        return false;
-    }
-
-    @Override
     public Categoria modify(Integer id, Categoria element) {
-        Categoria categoria = null;
+        Categoria categoria = new Categoria();
         try{
-            Optional<Categoria> opt = categoriaRepository.findById(element.getId());
+            Optional<Categoria> opt = categoriaRepository.findById(id);
             if(opt.isPresent()){
+                element.setId(id);
                 categoria =  this.save(element);
             }
         }catch (Exception e){

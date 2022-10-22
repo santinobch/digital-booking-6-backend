@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class CategoriaController {
@@ -40,6 +41,8 @@ public class CategoriaController {
         try {
             if(service.delete(id)){
                 response = ResponseEntity.status(HttpStatus.OK).body("Deleted");
+            } else {
+                response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe la categoría con ID "+id);
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -52,7 +55,12 @@ public class CategoriaController {
     public ResponseEntity<?> get(@PathVariable (value = "id", required = true) Integer id) {
         ResponseEntity<?> response = null;
         try {
-            response = ResponseEntity.ok(service.getById(id));
+            Optional<Categoria> categoria = service.getById(id);
+            if(categoria.isPresent()){
+                response = ResponseEntity.ok(categoria.get());
+            } else {
+                response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe la categoría con ID " + id);
+            }
         } catch (Exception e){
             e.printStackTrace();
             response = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -64,7 +72,12 @@ public class CategoriaController {
     public ResponseEntity<?> modify(@PathVariable (value = "id", required = true) Integer id, @RequestBody Categoria categoria){
         ResponseEntity<?> response = null;
         try {
-            response = ResponseEntity.ok(service.modify(id, categoria));
+            Categoria request = service.modify(id, categoria);
+            if (request.getId() == null){
+                response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe la categoría con ID " + id);
+            } else {
+                response = ResponseEntity.ok(request);
+            }
         } catch (Exception e){
             e.printStackTrace();
             response = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
