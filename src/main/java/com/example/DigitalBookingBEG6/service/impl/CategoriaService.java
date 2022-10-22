@@ -48,8 +48,17 @@ public class CategoriaService implements BaseService<Categoria> {
     }
 
     @Override
-    public Categoria modify(Categoria element) {
-        return null;
+    public Categoria modify(Integer id, Categoria element) {
+        Categoria categoria = null;
+        try{
+            Optional<Categoria> opt = categoriaRepository.findById(element.getId());
+            if(opt.isPresent()){
+                categoria =  this.save(element);
+            }
+        }catch (Exception e){
+            throw e;
+        }
+        return categoria;
     }
 
     @Override

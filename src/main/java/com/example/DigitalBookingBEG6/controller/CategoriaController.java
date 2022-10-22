@@ -59,4 +59,16 @@ public class CategoriaController {
         }
         return response;
     }
+
+    @PutMapping("/categoria/{id}")
+    public ResponseEntity<?> modify(@PathVariable (value = "id", required = true) Integer id, @RequestBody Categoria categoria){
+        ResponseEntity<?> response = null;
+        try {
+            response = ResponseEntity.ok(service.modify(id, categoria));
+        } catch (Exception e){
+            e.printStackTrace();
+            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return response;
+    }
 }

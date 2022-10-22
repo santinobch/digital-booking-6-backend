@@ -8,6 +8,6 @@ public interface BaseService<T> {
     public List<T> getAll();
     public boolean delete(Integer id);
     public boolean exist(Integer id);
-    public T modify(T element);
+    public T modify(Integer id, T element);
     public Optional<T> getById(Integer id);
 }
