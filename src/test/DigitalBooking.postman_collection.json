@@ -1,0 +1,242 @@
+{
+	"info": {
+		"_postman_id": "c8f1729c-5275-4f52-b051-575fa646a5f9",
+		"name": "DigitalBooking",
+		"description": "# Introduction\n\nEsta API es parte del entorno de backend que provee los servicios para la aplicación de DigitalBooking\n\n# Overview\n\nHecho en Spring Boot\n\n# Authentication\n\n# Error Codes\n\n200: OK  \n400: Bad request  \n404: Not found\n\n# Rate limit\n\nAún no conocido",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21639219"
+	},
+	"item": [
+		{
+			"name": "Categoría",
+			"item": [
+				{
+					"name": "Obtener todas las categorías",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"request exitoso\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/categorias",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"categorias"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar categoría por id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"request exitoso\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200,404]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/categoria/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"categoria",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear una nueva categoría",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/* el cuerpo debe tener esta estructura\r",
+									"{\r",
+									"    \"titulo\" : \"Hotel\",\r",
+									"    \"descripcion\" : \"Contamos con los mejores hoteles, aquí puedes encontrar tu proximo alojamiento para disfrutar tus vacaciones.\",\r",
+									"    \"url\" : \"https://images.unsplash.com/photo-1455587734955-081b22074882?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80\"\r",
+									"}\r",
+									"*/\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"data enviado con formato correcto\", () => {\r",
+									"  pm.expect(jsonData).to.be.an(\"object\");\r",
+									"  pm.expect(jsonData.titulo).to.be.a(\"string\");\r",
+									"  pm.expect(jsonData.descripcion).to.be.a(\"string\");\r",
+									"  pm.expect(jsonData.url).to.be.an(\"string\");\r",
+									"});\r",
+									"pm.test(\"request exitoso\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200,201,202]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"titulo\" : \"Hotel\",\r\n    \"descripcion\" : \"Contamos con los mejores hoteles, aquí puedes encontrar tu proximo alojamiento para disfrutar tus vacaciones.\",\r\n    \"url\" : \"https://images.unsplash.com/photo-1455587734955-081b22074882?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/categoria/new",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"categoria",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar categoría por ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"request exitoso\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200,404]);\r",
+									"});\r",
+									"pm.test(\"text de ejecución de busqueda y borrado\",() => {\r",
+									"    if(pm.response.code == 200){\r",
+									"        pm.expect(pm.response.text()).to.include(\"deleted\");\r",
+									"        console.log(\"categoria borrada con exito\")\r",
+									"    }else{\r",
+									"        pm.expect(pm.response.text()).to.include(\"No existe la categoría con ID\");\r",
+									"        console.log(\"No se encontró categoria con ese id, pero no se encontro ningun error\")\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/categoria/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"categoria",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modificar categoría indicada por Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/* el cuerpo debe tener esta estructura\r",
+									"{\r",
+									"    \"titulo\" : \"Hotel\",\r",
+									"    \"descripcion\" : \"Contamos con los mejores hoteles, aquí puedes encontrar tu proximo alojamiento para disfrutar tus vacaciones.\",\r",
+									"    \"url\" : \"https://images.unsplash.com/photo-1455587734955-081b22074882?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80\"\r",
+									"}\r",
+									"*/\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"data enviado con formato correcto\", () => {\r",
+									"  pm.expect(jsonData).to.be.an(\"object\");\r",
+									"  pm.expect(jsonData.titulo).to.be.a(\"string\");\r",
+									"  pm.expect(jsonData.descripcion).to.be.a(\"string\");\r",
+									"  pm.expect(jsonData.url).to.be.an(\"string\");\r",
+									"});\r",
+									"pm.test(\"request exitoso\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200,201,202,404]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"titulo\" : \"Hostel\",\r\n    \"descripcion\" : \"Un lugar donde podrás descansar la noche en un lugar muy comodo y acogedor\",\r\n    \"url\" : \"https://images.unsplash.com/photo-1586214601498-4dbcfd0bf2c8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/categoria/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"categoria",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
