@@ -23,4 +23,8 @@ public class Caracteristica {
         this.nombre = nombre;
         this.icono = icono;
     }
+
+    public Caracteristica (Integer id){
+        this.id = id;
+    }
 }

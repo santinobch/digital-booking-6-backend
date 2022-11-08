@@ -1,5 +1,7 @@
 package com.example.DigitalBookingBEG6.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,7 +36,8 @@ public class Producto {
     @JoinColumn(name="id_ciudad")
     private Ciudad ciudad;
 
-    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Imagen> imagenes;
 
     @ManyToMany

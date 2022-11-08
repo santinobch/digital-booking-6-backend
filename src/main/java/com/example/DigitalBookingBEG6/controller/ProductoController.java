@@ -1,6 +1,7 @@
 package com.example.DigitalBookingBEG6.controller;
 
 import com.example.DigitalBookingBEG6.model.Categoria;
+import com.example.DigitalBookingBEG6.model.Ciudad;
 import com.example.DigitalBookingBEG6.model.Producto;
 import com.example.DigitalBookingBEG6.service.impl.CategoriaService;
 import com.example.DigitalBookingBEG6.service.impl.ProductoService;
@@ -86,5 +87,10 @@ public class ProductoController {
             response = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         return response;
+    }
+
+    @GetMapping("/productos/random")
+    public ResponseEntity<List<Producto>> getRandom(){
+        return ResponseEntity.ok(service.obtener4RandomProductos());
     }
 }

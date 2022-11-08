@@ -1,5 +1,6 @@
 package com.example.DigitalBookingBEG6.service.impl;
 
+import com.example.DigitalBookingBEG6.model.Ciudad;
 import com.example.DigitalBookingBEG6.model.Producto;
 import com.example.DigitalBookingBEG6.repository.ProductoRepository;
 import com.example.DigitalBookingBEG6.service.BaseService;
@@ -59,5 +60,9 @@ public class ProductoService implements BaseService<Producto> {
     @Override
     public Optional<Producto> getById(Integer id) {
         return productoRepository.findById(id);
+    }
+
+    public List<Producto> obtener4RandomProductos(){
+        return productoRepository.randomProducts();
     }
 }
