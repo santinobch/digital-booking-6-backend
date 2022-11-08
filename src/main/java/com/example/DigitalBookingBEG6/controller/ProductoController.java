@@ -93,4 +93,9 @@ public class ProductoController {
     public ResponseEntity<List<Producto>> getRandom(){
         return ResponseEntity.ok(service.obtener4RandomProductos());
     }
+
+    @GetMapping("/productos/ciudad/{id}")
+    public ResponseEntity<List<Producto>> getProductosById(@PathVariable Integer id){
+        return ResponseEntity.ok(service.getProductosByIdCiudad(id));
+    }
 }
