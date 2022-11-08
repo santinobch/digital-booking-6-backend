@@ -3,10 +3,12 @@ package com.example.DigitalBookingBEG6.service.impl;
 import com.example.DigitalBookingBEG6.model.Producto;
 import com.example.DigitalBookingBEG6.repository.ProductoRepository;
 import com.example.DigitalBookingBEG6.service.BaseService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ProductoService implements BaseService<Producto> {
     private final ProductoRepository productoRepository;
 
