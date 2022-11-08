@@ -1,9 +1,8 @@
 package com.example.DigitalBookingBEG6.controller;
 
-import com.example.DigitalBookingBEG6.model.Categoria;
 import com.example.DigitalBookingBEG6.model.Ciudad;
 import com.example.DigitalBookingBEG6.model.Producto;
-import com.example.DigitalBookingBEG6.service.impl.CategoriaService;
+import com.example.DigitalBookingBEG6.service.impl.CiudadService;
 import com.example.DigitalBookingBEG6.service.impl.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,9 +18,12 @@ import java.util.Optional;
 public class ProductoController {
     @Autowired
     private final ProductoService service;
+    @Autowired
+    private final CiudadService ciudadService;
 
-    public ProductoController(ProductoService service) {
+    public ProductoController(ProductoService service, CiudadService ciudadService) {
         this.service = service;
+        this.ciudadService = ciudadService;
     }
 
     @GetMapping("/productos")
@@ -95,7 +97,25 @@ public class ProductoController {
     }
 
     @GetMapping("/productos/ciudad/{id}")
-    public ResponseEntity<List<Producto>> getProductosById(@PathVariable Integer id){
-        return ResponseEntity.ok(service.getProductosByIdCiudad(id));
+    public ResponseEntity<?> getProductosById(@PathVariable Integer id){
+        ResponseEntity<?> response;
+        try {
+            Optional<Ciudad> ciudad = ciudadService.getById(id);
+            if(ciudad.isPresent()){
+                List<Producto> productosEncontrados = service.getProductosByIdCiudad(id);
+                if(productosEncontrados.size() > 0){
+                    response = ResponseEntity.ok(productosEncontrados);
+                } else{
+                    response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontraron productos pertenecientes a la ciudad con ID " + id);
+                }
+            } else {
+                response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe la ciudad con ID " + id);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return response;
+
     }
 }
