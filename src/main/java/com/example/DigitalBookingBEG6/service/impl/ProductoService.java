@@ -65,4 +65,9 @@ public class ProductoService implements BaseService<Producto> {
     public List<Producto> obtener4RandomProductos(){
         return productoRepository.randomProducts();
     }
+
+    public List<Producto> getProductosByIdCiudad(Integer id_ciudad){
+        return productoRepository.getProductosByCiudad(id_ciudad);
+    }
+
 }
