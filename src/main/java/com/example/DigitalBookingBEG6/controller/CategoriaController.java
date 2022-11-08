@@ -13,6 +13,7 @@ import java.util.Optional;
 
 @CrossOrigin
 @RestController
+@RequestMapping("/categorias")
 public class CategoriaController {
     @Autowired
     private final CategoriaService service;
@@ -21,12 +22,12 @@ public class CategoriaController {
         this.service = service;
     }
 
-    @GetMapping("/categorias")
+    @GetMapping("/all")
     public ResponseEntity<List<Categoria>> listAll(Model model) {
         return ResponseEntity.ok(service.getAll());
     }
 
-    @PostMapping("/categoria/new")
+    @PostMapping("/new")
     public ResponseEntity<Categoria> nuevo(@RequestBody Categoria categoria){
         try {
             return ResponseEntity.ok(service.save(categoria));
@@ -36,7 +37,7 @@ public class CategoriaController {
         }
     }
 
-    @DeleteMapping("/categoria/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> borrar(@PathVariable (value = "id", required = true) Integer id){
         ResponseEntity<?> response = null;
         try {
@@ -52,7 +53,7 @@ public class CategoriaController {
         return response;
     }
 
-    @GetMapping("/categoria/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> get(@PathVariable (value = "id", required = true) Integer id) {
         ResponseEntity<?> response = null;
         try {
@@ -69,7 +70,7 @@ public class CategoriaController {
         return response;
     }
 
-    @PutMapping("/categoria/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> modify(@PathVariable (value = "id", required = true) Integer id, @RequestBody Categoria categoria){
         ResponseEntity<?> response = null;
         try {

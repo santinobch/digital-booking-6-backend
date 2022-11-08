@@ -7,16 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin
 @RestController
+@RequestMapping("/imagenes")
 public class ImagenController {
     @Autowired
     private final ImagenService service;
@@ -25,12 +23,12 @@ public class ImagenController {
         this.service = service;
     }
 
-    @GetMapping("/imagenes")
+    @GetMapping("/all")
     public ResponseEntity<List<Imagen>> listAll(Model model) {
         return ResponseEntity.ok(service.getAll());
     }
 
-    @GetMapping("/imagen/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> get(@PathVariable(value = "id") Integer id) {
         ResponseEntity<?> response;
         try {

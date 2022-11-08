@@ -15,6 +15,7 @@ import java.util.Optional;
 
 @CrossOrigin
 @RestController
+@RequestMapping("/productos")
 public class ProductoController {
     @Autowired
     private final ProductoService service;
@@ -26,12 +27,12 @@ public class ProductoController {
         this.ciudadService = ciudadService;
     }
 
-    @GetMapping("/productos")
+    @GetMapping("/all")
     public ResponseEntity<List<Producto>> listAll(Model model) {
         return ResponseEntity.ok(service.getAll());
     }
 
-    @PostMapping("/producto/new")
+    @PostMapping("/new")
     public ResponseEntity<Producto> nuevo(@RequestBody Producto producto){
         try {
             return ResponseEntity.ok(service.save(producto));
@@ -41,7 +42,7 @@ public class ProductoController {
         }
     }
 
-    @DeleteMapping("/producto/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> borrar(@PathVariable (value = "id") Integer id){
         ResponseEntity<?> response = null;
         try {
@@ -57,7 +58,7 @@ public class ProductoController {
         return response;
     }
 
-    @GetMapping("/producto/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> get(@PathVariable (value = "id") Integer id) {
         ResponseEntity<?> response = null;
         try {
@@ -74,7 +75,7 @@ public class ProductoController {
         return response;
     }
 
-    @PutMapping("/producto/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> modify(@PathVariable (value = "id") Integer id, @RequestBody Producto producto){
         ResponseEntity<?> response = null;
         try {
@@ -91,12 +92,12 @@ public class ProductoController {
         return response;
     }
 
-    @GetMapping("/productos/random")
+    @GetMapping("/random")
     public ResponseEntity<List<Producto>> getRandom(){
         return ResponseEntity.ok(service.obtener4RandomProductos());
     }
 
-    @GetMapping("/productos/ciudad/{id}")
+    @GetMapping("/ciudad/{id}")
     public ResponseEntity<?> getProductosById(@PathVariable Integer id){
         ResponseEntity<?> response;
         try {

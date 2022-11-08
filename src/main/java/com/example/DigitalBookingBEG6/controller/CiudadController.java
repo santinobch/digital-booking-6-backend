@@ -13,6 +13,7 @@ import java.util.Optional;
 
 @CrossOrigin
 @RestController
+@RequestMapping("/ciudades")
 public class CiudadController {
     @Autowired
     private final CiudadService service;
@@ -21,13 +22,13 @@ public class CiudadController {
         this.service = service;
     }
 
-    @GetMapping("/ciudades")
+    @GetMapping("/all")
     public ResponseEntity<List<Ciudad>> listAll(Model model) {
         return ResponseEntity.ok(service.getAll());
     }
 
 
-    @GetMapping("/ciudad/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> get(@PathVariable (value = "id") Integer id) {
         ResponseEntity<?> response;
         try {
