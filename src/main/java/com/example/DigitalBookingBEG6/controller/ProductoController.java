@@ -1,7 +1,9 @@
 package com.example.DigitalBookingBEG6.controller;
 
+import com.example.DigitalBookingBEG6.model.Categoria;
 import com.example.DigitalBookingBEG6.model.Ciudad;
 import com.example.DigitalBookingBEG6.model.Producto;
+import com.example.DigitalBookingBEG6.service.impl.CategoriaService;
 import com.example.DigitalBookingBEG6.service.impl.CiudadService;
 import com.example.DigitalBookingBEG6.service.impl.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +23,13 @@ public class ProductoController {
     private final ProductoService service;
     @Autowired
     private final CiudadService ciudadService;
+    @Autowired
+    private final CategoriaService categoriaService;
 
-    public ProductoController(ProductoService service, CiudadService ciudadService) {
+    public ProductoController(ProductoService service, CiudadService ciudadService, CategoriaService categoriaService) {
         this.service = service;
         this.ciudadService = ciudadService;
+        this.categoriaService = categoriaService;
     }
 
     @GetMapping("/all")
@@ -98,7 +103,7 @@ public class ProductoController {
     }
 
     @GetMapping("/ciudad/{id}")
-    public ResponseEntity<?> getProductosById(@PathVariable Integer id){
+    public ResponseEntity<?> getProductosByIdCiudad(@PathVariable Integer id){
         ResponseEntity<?> response;
         try {
             Optional<Ciudad> ciudad = ciudadService.getById(id);
@@ -117,6 +122,27 @@ public class ProductoController {
             response = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         return response;
+    }
 
+    @GetMapping("/categoria/{id}")
+    public ResponseEntity<?> getProductosByIdCategoria(@PathVariable Integer id){
+        ResponseEntity<?> response;
+        try {
+            Optional<Categoria> categoria = categoriaService.getById(id);
+            if(categoria.isPresent()){
+                List<Producto> productosEncontrados = service.getProductosByIdCategoria(id);
+                if(productosEncontrados.size() > 0){
+                    response = ResponseEntity.ok(productosEncontrados);
+                } else{
+                    response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontraron productos pertenecientes a la categoria con ID " + id);
+                }
+            } else {
+                response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe la categoria con ID " + id);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return response;
     }
 }

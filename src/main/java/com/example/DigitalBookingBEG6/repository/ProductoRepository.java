@@ -14,4 +14,7 @@ public interface ProductoRepository extends JpaRepository<Producto, Integer> {
 
     @Query("SELECT p FROM Producto p WHERE p.ciudad.id = ?1")
     List<Producto> getProductosByCiudad(Integer id);
+
+    @Query("SELECT p FROM Producto p WHERE p.categoria.id = ?1")
+    List<Producto> getProductosByCategoria(Integer id);
 }

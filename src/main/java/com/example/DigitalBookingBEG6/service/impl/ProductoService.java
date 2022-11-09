@@ -67,7 +67,10 @@ public class ProductoService implements BaseService<Producto> {
     }
 
     public List<Producto> getProductosByIdCiudad(Integer id_ciudad){
-        return productoRepository.getProductosByCiudad(id_ciudad);
+        return productoRepository.getProductosByCategoria(id_ciudad);
     }
 
+    public List<Producto> getProductosByIdCategoria(Integer id_categoria){
+        return productoRepository.getProductosByCategoria(id_categoria);
+    }
 }
