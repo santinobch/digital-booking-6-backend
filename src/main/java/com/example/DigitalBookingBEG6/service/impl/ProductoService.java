@@ -24,7 +24,7 @@ public class ProductoService implements BaseService<Producto> {
 
     @Override
     public List<Producto> getAll() {
-        return productoRepository.findAll();
+        return productoRepository.randomProducts();
     }
 
     @Override
