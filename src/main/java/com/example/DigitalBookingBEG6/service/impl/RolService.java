@@ -16,7 +16,6 @@ public class RolService implements BaseService<Rol> {
         this.rolRepository = rolRepository;
     }
 
-
     @Override
     public Rol save(Rol element) {
         return rolRepository.save(element);
