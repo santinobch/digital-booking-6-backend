@@ -54,4 +54,8 @@ public class Producto {
         this.imagenes = imagenes;
         this.caracteristicas = caracteristicas;
     }
+
+    public Producto(Integer id){
+        this.id = id;
+    }
 }

@@ -33,12 +33,12 @@ public class ImagenController {
         ResponseEntity<?> response;
         try {
             Optional<Imagen> imagen = service.getById(id);
-            if(imagen.isPresent()){
+            if (imagen.isPresent()) {
                 response = ResponseEntity.ok(imagen.get());
             } else {
                 response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe la imagen con ID " + id);
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             response = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }

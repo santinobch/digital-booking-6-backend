@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,8 +27,8 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> get(@PathVariable(value = "id", required = true) Integer id) {
-        ResponseEntity<?> response = null;
+    public ResponseEntity<?> get(@PathVariable Integer id) {
+        ResponseEntity<?> response;
         try {
             Optional<Usuario> usuario = service.getById(id);
             if (usuario.isPresent()) {
@@ -43,7 +44,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<Usuario> nuevo(@RequestBody Usuario usuario){
+    public ResponseEntity<Usuario> nuevo(@Valid @RequestBody Usuario usuario){
         try {
             return ResponseEntity.ok(service.save(usuario));
         } catch (Exception e) {
