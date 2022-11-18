@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,13 +41,8 @@ public class ProductoController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Producto> nuevo(@RequestBody Producto producto){
-        try {
-            return ResponseEntity.ok(service.save(producto));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+    public ResponseEntity<Producto> nuevo(@Valid @RequestBody Producto producto){
+        return ResponseEntity.status(201).body(service.save(producto));
     }
 
     @DeleteMapping("/{id}")
@@ -60,7 +56,7 @@ public class ProductoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> modify(@PathVariable Integer id, @RequestBody Producto producto){
+    public ResponseEntity<?> modify(@PathVariable Integer id, @Valid @RequestBody Producto producto){
         return ResponseEntity.ok(service.modify(id, producto));
     }
 

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,7 +29,7 @@ public class CategoriaController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Categoria> nuevo(@RequestBody Categoria categoria){
+    public ResponseEntity<Categoria> nuevo(@Valid @RequestBody Categoria categoria){
         return ResponseEntity.status(201).body(service.save(categoria));
     }
 

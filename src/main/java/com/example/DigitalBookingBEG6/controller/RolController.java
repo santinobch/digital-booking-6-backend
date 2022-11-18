@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -31,7 +32,7 @@ public class RolController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Rol> nuevo(@RequestBody Rol rol){
+    public ResponseEntity<Rol> nuevo(@Valid @RequestBody Rol rol){
         return ResponseEntity.status(201).body(service.save(rol));
     }
 

@@ -49,7 +49,7 @@ public class ReservaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> modify(@PathVariable Integer id, @RequestBody Reserva reserva){
+    public ResponseEntity<?> modify(@PathVariable Integer id, @Valid @RequestBody Reserva reserva){
         return ResponseEntity.ok(reservaService.modify(id, reserva));
     }
 }

@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -19,8 +21,10 @@ public class Ciudad {
     @Column(name="id_ciudad")
     private Integer id;
     @Column
+    @NotEmpty
     private String nombre;
     @Column
+    @NotEmpty
     private String pais;
 
     public Ciudad(String nombre, String pais){

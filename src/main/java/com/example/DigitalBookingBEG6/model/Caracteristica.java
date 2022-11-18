@@ -2,6 +2,7 @@ package com.example.DigitalBookingBEG6.model;
 
 import lombok.*;
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 @Getter
 @Setter
@@ -15,6 +16,7 @@ public class Caracteristica {
     @Column(name="id_caracteristica")
     private Integer id;
     @Column
+    @NotEmpty
     private String nombre;
     @Column
     private String icono;
