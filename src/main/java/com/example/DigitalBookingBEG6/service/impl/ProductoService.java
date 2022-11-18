@@ -2,6 +2,7 @@ package com.example.DigitalBookingBEG6.service.impl;
 
 import com.example.DigitalBookingBEG6.exceptions.ResourceNotFoundException;
 import com.example.DigitalBookingBEG6.model.Categoria;
+import com.example.DigitalBookingBEG6.model.Imagen;
 import com.example.DigitalBookingBEG6.model.Producto;
 import com.example.DigitalBookingBEG6.repository.ProductoRepository;
 import com.example.DigitalBookingBEG6.service.BaseService;
@@ -44,17 +45,11 @@ public class ProductoService implements BaseService<Producto> {
 
     @Override
     public Producto modify(Integer id, Producto element) {
-        Producto producto = new Producto();
-        try{
-            Optional<Producto> opt = productoRepository.findById(id);
-            if(opt.isPresent()){
-                element.setId(id);
-                producto =  this.save(element);
-            }
-        }catch (Exception e){
-            throw e;
+        Optional<Producto> opt = productoRepository.findById(id);
+        if (opt.isEmpty()) {
+            throw new ResourceNotFoundException("NF-201", "No existe el producto con ID " + id);
         }
-        return producto;
+        return this.save(element);
     }
 
     @Override

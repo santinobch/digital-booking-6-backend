@@ -1,5 +1,6 @@
 package com.example.DigitalBookingBEG6.controller;
 
+import com.example.DigitalBookingBEG6.model.Categoria;
 import com.example.DigitalBookingBEG6.model.Ciudad;
 import com.example.DigitalBookingBEG6.service.impl.CiudadService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +37,10 @@ public class CiudadController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> borrar(@PathVariable Integer id){
         return ResponseEntity.status(204).body(service.delete(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> modify(@PathVariable Integer id, @RequestBody Ciudad ciudad){
+        return ResponseEntity.ok(service.modify(id, ciudad));
     }
 }

@@ -43,19 +43,7 @@ public class CategoriaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> modify(@PathVariable (value = "id", required = true) Integer id, @RequestBody Categoria categoria){
-        ResponseEntity<?> response = null;
-        try {
-            Categoria request = service.modify(id, categoria);
-            if (request.getId() == null){
-                response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe la categoría con ID " + id);
-            } else {
-                response = ResponseEntity.ok(request);
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-        return response;
+    public ResponseEntity<?> modify(@PathVariable Integer id, @RequestBody Categoria categoria){
+        return ResponseEntity.ok(service.modify(id, categoria));
     }
 }

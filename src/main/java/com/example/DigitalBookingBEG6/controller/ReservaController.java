@@ -1,5 +1,6 @@
 package com.example.DigitalBookingBEG6.controller;
 
+import com.example.DigitalBookingBEG6.model.Producto;
 import com.example.DigitalBookingBEG6.model.Reserva;
 import com.example.DigitalBookingBEG6.service.impl.ProductoService;
 import com.example.DigitalBookingBEG6.service.impl.ReservaService;
@@ -45,5 +46,10 @@ public class ReservaController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> borrar(@PathVariable Integer id){
         return ResponseEntity.status(204).body(reservaService.delete(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> modify(@PathVariable Integer id, @RequestBody Reserva reserva){
+        return ResponseEntity.ok(reservaService.modify(id, reserva));
     }
 }

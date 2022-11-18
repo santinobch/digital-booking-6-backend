@@ -2,6 +2,7 @@ package com.example.DigitalBookingBEG6.service.impl;
 
 import com.example.DigitalBookingBEG6.exceptions.ResourceNotFoundException;
 import com.example.DigitalBookingBEG6.model.Categoria;
+import com.example.DigitalBookingBEG6.model.Rol;
 import com.example.DigitalBookingBEG6.model.Usuario;
 import com.example.DigitalBookingBEG6.repository.UsuarioRepository;
 import com.example.DigitalBookingBEG6.service.BaseService;
@@ -44,17 +45,11 @@ public class UsuarioService implements BaseService<Usuario> {
 
     @Override
     public Usuario modify(Integer id, Usuario element) {
-        Usuario usuario = new Usuario();
-        try{
-            Optional<Usuario> opt = usuarioRepository.findById(id);
-            if(opt.isPresent()){
-                element.setId(id);
-                usuario =  this.save(element);
-            }
-        }catch (Exception e){
-            throw e;
+        Optional<Usuario> opt = usuarioRepository.findById(id);
+        if (opt.isEmpty()) {
+            throw new ResourceNotFoundException("NF-101", "No existe el usuario con ID " + id);
         }
-        return null;
+        return this.save(element);
     }
 
     @Override

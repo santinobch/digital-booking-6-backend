@@ -1,5 +1,6 @@
 package com.example.DigitalBookingBEG6.controller;
 
+import com.example.DigitalBookingBEG6.model.Rol;
 import com.example.DigitalBookingBEG6.model.Usuario;
 import com.example.DigitalBookingBEG6.service.impl.UsuarioService;
 import org.springframework.http.HttpStatus;
@@ -39,5 +40,10 @@ public class UsuarioController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> borrar(@PathVariable Integer id){
         return ResponseEntity.status(204).body(service.delete(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> modify(@PathVariable Integer id, @RequestBody Usuario usuario){
+        return ResponseEntity.ok(service.modify(id, usuario));
     }
 }

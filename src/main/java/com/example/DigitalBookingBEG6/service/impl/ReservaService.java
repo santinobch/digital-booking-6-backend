@@ -56,7 +56,11 @@ public class ReservaService implements BaseService<Reserva> {
 
     @Override
     public Reserva modify(Integer id, Reserva element) {
-        return null;
+        Optional<Reserva> opt = reservaRepository.findById(id);
+        if (opt.isEmpty()) {
+            throw new ResourceNotFoundException("NF-301", "No existe la reserva con ID " + id);
+        }
+        return this.save(element);
     }
 
     @Override

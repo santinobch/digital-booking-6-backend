@@ -1,5 +1,6 @@
 package com.example.DigitalBookingBEG6.controller;
 
+import com.example.DigitalBookingBEG6.model.Reserva;
 import com.example.DigitalBookingBEG6.model.Rol;
 import com.example.DigitalBookingBEG6.service.impl.RolService;
 import org.springframework.http.HttpStatus;
@@ -39,4 +40,8 @@ public class RolController {
         return ResponseEntity.status(204).body(service.delete(id));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> modify(@PathVariable Integer id, @RequestBody Rol rol){
+        return ResponseEntity.ok(service.modify(id, rol));
+    }
 }

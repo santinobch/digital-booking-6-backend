@@ -2,6 +2,7 @@ package com.example.DigitalBookingBEG6.controller;
 
 import com.example.DigitalBookingBEG6.model.Categoria;
 import com.example.DigitalBookingBEG6.model.Ciudad;
+import com.example.DigitalBookingBEG6.model.Imagen;
 import com.example.DigitalBookingBEG6.model.Producto;
 import com.example.DigitalBookingBEG6.service.impl.CategoriaService;
 import com.example.DigitalBookingBEG6.service.impl.CiudadService;
@@ -59,20 +60,8 @@ public class ProductoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> modify(@PathVariable (value = "id") Integer id, @RequestBody Producto producto){
-        ResponseEntity<?> response = null;
-        try {
-            Producto request = service.modify(id, producto);
-            if (request.getId() == null){
-                response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe el producto con ID " + id);
-            } else {
-                response = ResponseEntity.ok(request);
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-        return response;
+    public ResponseEntity<?> modify(@PathVariable Integer id, @RequestBody Producto producto){
+        return ResponseEntity.ok(service.modify(id, producto));
     }
 
     @GetMapping("/random")

@@ -45,17 +45,11 @@ public class ImagenService implements BaseService<Imagen> {
 
     @Override
     public Imagen modify(Integer id, Imagen element) {
-        Imagen imagen = new Imagen();
-        try{
-            Optional<Imagen> opt = imagenRepository.findById(id);
-            if(opt.isPresent()){
-                element.setId(id);
-                imagen =  this.save(element);
-            }
-        }catch (Exception e){
-            throw e;
+        Optional<Imagen> opt = imagenRepository.findById(id);
+        if (opt.isEmpty()) {
+            throw new ResourceNotFoundException("NF-501", "No existe la imagen con ID " + id);
         }
-        return imagen;
+        return this.save(element);
     }
 
     @Override

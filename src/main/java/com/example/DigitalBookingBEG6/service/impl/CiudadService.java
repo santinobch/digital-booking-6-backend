@@ -45,17 +45,11 @@ public class CiudadService implements BaseService<Ciudad> {
 
     @Override
     public Ciudad modify(Integer id, Ciudad element) {
-        Ciudad ciudad = new Ciudad();
-        try{
-            Optional<Ciudad> opt = ciudadRepository.findById(id);
-            if(opt.isPresent()){
-                element.setId(id);
-                ciudad =  this.save(element);
-            }
-        }catch (Exception e){
-            throw e;
+        Optional<Ciudad> opt = ciudadRepository.findById(id);
+        if (opt.isEmpty()) {
+            throw new ResourceNotFoundException("NF-401", "No existe la ciudad con ID " + id);
         }
-        return ciudad;
+        return this.save(element);
     }
 
     @Override

@@ -44,17 +44,11 @@ public class CategoriaService implements BaseService<Categoria> {
 
     @Override
     public Categoria modify(Integer id, Categoria element) {
-        Categoria categoria = new Categoria();
-        try{
-            Optional<Categoria> opt = categoriaRepository.findById(id);
-            if(opt.isPresent()){
-                element.setId(id);
-                categoria =  this.save(element);
-            }
-        }catch (Exception e){
-            throw e;
+        Optional<Categoria> opt = categoriaRepository.findById(id);
+        if (opt.isEmpty()) {
+            throw new ResourceNotFoundException("NF-601", "No existe la categoría con ID " + id);
         }
-        return categoria;
+        return this.save(element);
     }
 
     @Override
