@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/imagenes")
+@RequestMapping("/images")
 public class ImagenController {
     @Autowired
     private final ImagenService service;
@@ -23,25 +23,13 @@ public class ImagenController {
         this.service = service;
     }
 
-    @GetMapping("/all")
+    @GetMapping("/")
     public ResponseEntity<List<Imagen>> listAll(Model model) {
         return ResponseEntity.ok(service.getAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> get(@PathVariable(value = "id") Integer id) {
-        ResponseEntity<?> response;
-        try {
-            Optional<Imagen> imagen = service.getById(id);
-            if (imagen.isPresent()) {
-                response = ResponseEntity.ok(imagen.get());
-            } else {
-                response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe la imagen con ID " + id);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-        return response;
+        return ResponseEntity.ok(service.getById(id));
     }
 }

@@ -1,5 +1,7 @@
 package com.example.DigitalBookingBEG6.service.impl;
 
+import com.example.DigitalBookingBEG6.exceptions.ResourceNotFoundException;
+import com.example.DigitalBookingBEG6.model.Categoria;
 import com.example.DigitalBookingBEG6.model.Rol;
 import com.example.DigitalBookingBEG6.repository.RolRepository;
 import com.example.DigitalBookingBEG6.service.BaseService;
@@ -23,7 +25,11 @@ public class RolService implements BaseService<Rol> {
 
     @Override
     public List<Rol> getAll() {
-        return rolRepository.findAll();
+        List<Rol> rolesEncontradas = rolRepository.findAll();
+        if(rolesEncontradas.isEmpty()){
+            throw new ResourceNotFoundException("NF-700", "No hay roles registrados en la base de datos");
+        }
+        return rolesEncontradas;
     }
 
     @Override
@@ -57,7 +63,8 @@ public class RolService implements BaseService<Rol> {
     }
 
     @Override
-    public Optional<Rol> getById(Integer id) {
-        return rolRepository.findById(id);
+    public Rol getById(Integer id) {
+        return rolRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("NF-701", "No existe el rol con ID " + id));
     }
 }

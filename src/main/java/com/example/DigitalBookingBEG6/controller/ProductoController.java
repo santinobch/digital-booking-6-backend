@@ -6,6 +6,7 @@ import com.example.DigitalBookingBEG6.model.Producto;
 import com.example.DigitalBookingBEG6.service.impl.CategoriaService;
 import com.example.DigitalBookingBEG6.service.impl.CiudadService;
 import com.example.DigitalBookingBEG6.service.impl.ProductoService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ import java.util.Optional;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/productos")
+@RequestMapping("/products")
 public class ProductoController {
     @Autowired
     private final ProductoService service;
@@ -32,12 +33,12 @@ public class ProductoController {
         this.categoriaService = categoriaService;
     }
 
-    @GetMapping("/all")
+    @GetMapping("/")
     public ResponseEntity<List<Producto>> listAll(Model model) {
         return ResponseEntity.ok(service.getAll());
     }
 
-    @PostMapping("/new")
+    @PostMapping("/")
     public ResponseEntity<Producto> nuevo(@RequestBody Producto producto){
         try {
             return ResponseEntity.ok(service.save(producto));
@@ -65,19 +66,7 @@ public class ProductoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> get(@PathVariable (value = "id") Integer id) {
-        ResponseEntity<?> response = null;
-        try {
-            Optional<Producto> producto = service.getById(id);
-            if(producto.isPresent()){
-                response = ResponseEntity.ok(producto.get());
-            } else {
-                response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe el producto con ID " + id);
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-        return response;
+        return ResponseEntity.ok(service.getById(id));
     }
 
     @PutMapping("/{id}")
@@ -102,47 +91,13 @@ public class ProductoController {
         return ResponseEntity.ok(service.obtener4RandomProductos());
     }
 
-    @GetMapping("/ciudad/{id}")
+    @GetMapping("/city/{id}")
     public ResponseEntity<?> getProductosByIdCiudad(@PathVariable Integer id){
-        ResponseEntity<?> response;
-        try {
-            Optional<Ciudad> ciudad = ciudadService.getById(id);
-            if(ciudad.isPresent()){
-                List<Producto> productosEncontrados = service.getProductosByIdCiudad(id);
-                if(productosEncontrados.size() > 0){
-                    response = ResponseEntity.ok(productosEncontrados);
-                } else{
-                    response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontraron productos pertenecientes a la ciudad con ID " + id);
-                }
-            } else {
-                response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe la ciudad con ID " + id);
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-        return response;
+        return ResponseEntity.ok(service.getProductosByIdCiudad(id));
     }
 
-    @GetMapping("/categoria/{id}")
+    @GetMapping("/category/{id}")
     public ResponseEntity<?> getProductosByIdCategoria(@PathVariable Integer id){
-        ResponseEntity<?> response;
-        try {
-            Optional<Categoria> categoria = categoriaService.getById(id);
-            if(categoria.isPresent()){
-                List<Producto> productosEncontrados = service.getProductosByIdCategoria(id);
-                if(productosEncontrados.size() > 0){
-                    response = ResponseEntity.ok(productosEncontrados);
-                } else{
-                    response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontraron productos pertenecientes a la categoria con ID " + id);
-                }
-            } else {
-                response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe la categoria con ID " + id);
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-        return response;
+        return ResponseEntity.ok(service.getProductosByIdCategoria(id));
     }
 }

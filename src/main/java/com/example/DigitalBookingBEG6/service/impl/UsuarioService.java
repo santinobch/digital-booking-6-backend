@@ -1,10 +1,9 @@
 package com.example.DigitalBookingBEG6.service.impl;
 
+import com.example.DigitalBookingBEG6.exceptions.ResourceNotFoundException;
 import com.example.DigitalBookingBEG6.model.Usuario;
 import com.example.DigitalBookingBEG6.repository.UsuarioRepository;
 import com.example.DigitalBookingBEG6.service.BaseService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,7 +24,11 @@ public class UsuarioService implements BaseService<Usuario> {
 
     @Override
     public List<Usuario> getAll() {
-        return usuarioRepository.findAll();
+        List usuariosEncontrados = usuarioRepository.findAll();
+        if(usuariosEncontrados.isEmpty()){
+            throw new ResourceNotFoundException("NF-100", "No hay usuarios registrados en la base de datos");
+        }
+        return usuariosEncontrados;
     }
 
     @Override
@@ -55,23 +58,13 @@ public class UsuarioService implements BaseService<Usuario> {
         }catch (Exception e){
             throw e;
         }
+        return null;
     }
 
     @Override
-    public ResponseEntity getById(Integer id) {
-        if()
-        try {
-            Optional<Usuario> usuario = ;
-            if (usuario.isPresent()) {
-                response = ResponseEntity.ok(usuario.get());
-            } else {
-                response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe el usuario con ID " + id);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-        return usuarioRepository.findById(id);
+    public Usuario getById(Integer id) {
+        return usuarioRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("NF-101", "No existe el usuario con ID " + id));
     }
 
     public Usuario findByEmail(String email) {

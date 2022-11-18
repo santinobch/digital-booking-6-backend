@@ -1,6 +1,6 @@
 package com.example.DigitalBookingBEG6.service.impl;
 
-import com.example.DigitalBookingBEG6.model.Categoria;
+import com.example.DigitalBookingBEG6.exceptions.ResourceNotFoundException;
 import com.example.DigitalBookingBEG6.model.Ciudad;
 import com.example.DigitalBookingBEG6.repository.CiudadRepository;
 import com.example.DigitalBookingBEG6.service.BaseService;
@@ -25,7 +25,11 @@ public class CiudadService implements BaseService<Ciudad> {
 
     @Override
     public List<Ciudad> getAll() {
-        return ciudadRepository.findAll();
+        List<Ciudad> ciudadesEncontradas = ciudadRepository.findAll();
+        if(ciudadesEncontradas.isEmpty()){
+            throw new ResourceNotFoundException("NF-400", "No hay ciudades registradas en la base de datos");
+        }
+        return ciudadesEncontradas;
     }
 
     @Override
@@ -59,7 +63,8 @@ public class CiudadService implements BaseService<Ciudad> {
     }
 
     @Override
-    public Optional<Ciudad> getById(Integer id) {
-        return ciudadRepository.findById(id);
+    public Ciudad getById(Integer id) {
+        return ciudadRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("NF-401", "No existe la ciudad con ID " + id));
     }
 }

@@ -1,6 +1,8 @@
 package com.example.DigitalBookingBEG6.service.impl;
 
+import com.example.DigitalBookingBEG6.exceptions.ResourceNotFoundException;
 import com.example.DigitalBookingBEG6.model.Categoria;
+import com.example.DigitalBookingBEG6.model.Imagen;
 import com.example.DigitalBookingBEG6.repository.CategoriaRepository;
 import com.example.DigitalBookingBEG6.service.BaseService;
 import org.springframework.stereotype.Service;
@@ -19,7 +21,11 @@ public class CategoriaService implements BaseService<Categoria> {
 
     @Override
     public List<Categoria> getAll() {
-        return categoriaRepository.findAll();
+        List<Categoria> categoriasEncontradas = categoriaRepository.findAll();
+        if(categoriasEncontradas.isEmpty()){
+            throw new ResourceNotFoundException("NF-600", "No hay categorías registradas en la base de datos");
+        }
+        return categoriasEncontradas;
     }
 
     @Override
@@ -58,7 +64,8 @@ public class CategoriaService implements BaseService<Categoria> {
     }
 
     @Override
-    public Optional<Categoria> getById(Integer id) {
-        return categoriaRepository.findById(id);
+    public Categoria getById(Integer id) {
+        return categoriaRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("NF-601", "No existe la categoría con ID " + id));
     }
 }

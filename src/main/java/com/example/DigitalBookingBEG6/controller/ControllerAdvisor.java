@@ -13,7 +13,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 
 @RestControllerAdvice
-public class ControllerAdvice extends ResponseEntityExceptionHandler {
+public class ControllerAdvisor extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorDTO> notFoundExceptionHandler(ResourceNotFoundException ex){
         ErrorDTO error = ErrorDTO.builder().code(ex.getCode()).message(ex.getMessage()).build();
