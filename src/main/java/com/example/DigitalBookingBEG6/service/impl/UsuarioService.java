@@ -3,6 +3,8 @@ package com.example.DigitalBookingBEG6.service.impl;
 import com.example.DigitalBookingBEG6.model.Usuario;
 import com.example.DigitalBookingBEG6.repository.UsuarioRepository;
 import com.example.DigitalBookingBEG6.service.BaseService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -53,11 +55,22 @@ public class UsuarioService implements BaseService<Usuario> {
         }catch (Exception e){
             throw e;
         }
-        return usuario;
     }
 
     @Override
-    public Optional<Usuario> getById(Integer id) {
+    public ResponseEntity getById(Integer id) {
+        if()
+        try {
+            Optional<Usuario> usuario = ;
+            if (usuario.isPresent()) {
+                response = ResponseEntity.ok(usuario.get());
+            } else {
+                response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe el usuario con ID " + id);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
         return usuarioRepository.findById(id);
     }
 

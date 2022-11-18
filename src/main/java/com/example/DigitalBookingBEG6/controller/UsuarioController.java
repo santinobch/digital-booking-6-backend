@@ -27,20 +27,9 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> get(@PathVariable Integer id) {
-        ResponseEntity<?> response;
-        try {
-            Optional<Usuario> usuario = service.getById(id);
-            if (usuario.isPresent()) {
-                response = ResponseEntity.ok(usuario.get());
-            } else {
-                response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe el usuario con ID " + id);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-        return response;
+    public ResponseEntity get(@PathVariable Integer id) {
+
+        return service.getById(id);
     }
 
     @PostMapping("/new")
