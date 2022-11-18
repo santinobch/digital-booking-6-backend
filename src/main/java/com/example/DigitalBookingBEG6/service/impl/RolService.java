@@ -34,17 +34,12 @@ public class RolService implements BaseService<Rol> {
 
     @Override
     public boolean delete(Integer id) {
-        boolean deleted = false;
-        try{
-            Optional<Rol> opt = rolRepository.findById(id);
-            if(opt.isPresent()){
-                rolRepository.deleteById(id);
-                deleted = true;
-            }
-        }catch (Exception e){
-            throw e;
+        Optional<Rol> opt = rolRepository.findById(id);
+        if(opt.isEmpty()){
+            throw new ResourceNotFoundException("NF-701", "No existe el rol con ID " + id);
         }
-        return deleted;
+        rolRepository.deleteById(id);
+        return true;
     }
 
     @Override

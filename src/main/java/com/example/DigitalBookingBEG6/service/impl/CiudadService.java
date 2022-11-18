@@ -1,6 +1,7 @@
 package com.example.DigitalBookingBEG6.service.impl;
 
 import com.example.DigitalBookingBEG6.exceptions.ResourceNotFoundException;
+import com.example.DigitalBookingBEG6.model.Categoria;
 import com.example.DigitalBookingBEG6.model.Ciudad;
 import com.example.DigitalBookingBEG6.repository.CiudadRepository;
 import com.example.DigitalBookingBEG6.service.BaseService;
@@ -34,17 +35,12 @@ public class CiudadService implements BaseService<Ciudad> {
 
     @Override
     public boolean delete(Integer id) {
-        boolean deleted = false;
-        try{
-            Optional<Ciudad> opt = ciudadRepository.findById(id);
-            if(opt.isPresent()){
-                ciudadRepository.deleteById(id);
-                deleted = true;
-            }
-        }catch (Exception e){
-            throw e;
+        Optional<Ciudad> opt = ciudadRepository.findById(id);
+        if(opt.isEmpty()){
+            throw new ResourceNotFoundException("NF-401", "No existe la ciudad con ID " + id);
         }
-        return deleted;
+        ciudadRepository.deleteById(id);
+        return true;
     }
 
     @Override

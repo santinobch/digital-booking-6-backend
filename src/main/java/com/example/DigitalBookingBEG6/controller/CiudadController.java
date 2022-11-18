@@ -32,4 +32,9 @@ public class CiudadController {
     public ResponseEntity<?> get(@PathVariable (value = "id") Integer id) {
         return ResponseEntity.ok(service.getById(id));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> borrar(@PathVariable Integer id){
+        return ResponseEntity.status(204).body(service.delete(id));
+    }
 }

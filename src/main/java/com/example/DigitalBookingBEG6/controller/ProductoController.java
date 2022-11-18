@@ -49,19 +49,8 @@ public class ProductoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> borrar(@PathVariable (value = "id") Integer id){
-        ResponseEntity<?> response = null;
-        try {
-            if(service.delete(id)){
-                response = ResponseEntity.status(HttpStatus.OK).body("Deleted");
-            } else {
-                response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe el producto con ID "+id);
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-        return response;
+    public ResponseEntity<?> borrar(@PathVariable Integer id){
+        return ResponseEntity.status(204).body(service.delete(id));
     }
 
     @GetMapping("/{id}")

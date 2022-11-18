@@ -33,4 +33,10 @@ public class RolController {
     public ResponseEntity<Rol> nuevo(@RequestBody Rol rol){
         return ResponseEntity.status(201).body(service.save(rol));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> borrar(@PathVariable Integer id){
+        return ResponseEntity.status(204).body(service.delete(id));
+    }
+
 }

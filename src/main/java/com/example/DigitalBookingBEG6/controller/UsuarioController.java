@@ -35,4 +35,9 @@ public class UsuarioController {
     public ResponseEntity<Usuario> nuevo(@Valid @RequestBody Usuario usuario){
         return ResponseEntity.status(201).body(service.save(usuario));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> borrar(@PathVariable Integer id){
+        return ResponseEntity.status(204).body(service.delete(id));
+    }
 }

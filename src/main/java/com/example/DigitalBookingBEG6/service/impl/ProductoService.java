@@ -1,6 +1,7 @@
 package com.example.DigitalBookingBEG6.service.impl;
 
 import com.example.DigitalBookingBEG6.exceptions.ResourceNotFoundException;
+import com.example.DigitalBookingBEG6.model.Categoria;
 import com.example.DigitalBookingBEG6.model.Producto;
 import com.example.DigitalBookingBEG6.repository.ProductoRepository;
 import com.example.DigitalBookingBEG6.service.BaseService;
@@ -33,17 +34,12 @@ public class ProductoService implements BaseService<Producto> {
 
     @Override
     public boolean delete(Integer id) {
-        boolean deleted = false;
-        try{
-            Optional<Producto> opt = productoRepository.findById(id);
-            if(opt.isPresent()){
-                productoRepository.deleteById(id);
-                deleted = true;
-            }
-        }catch (Exception e){
-            throw e;
+        Optional<Producto> opt = productoRepository.findById(id);
+        if(opt.isEmpty()){
+            throw new ResourceNotFoundException("NF-201", "No existe el producto con ID " + id);
         }
-        return deleted;
+        productoRepository.deleteById(id);
+        return true;
     }
 
     @Override
@@ -82,7 +78,7 @@ public class ProductoService implements BaseService<Producto> {
     public List<Producto> getProductosByIdCategoria(Integer id_categoria){
         List listadoProductos = productoRepository.getProductosByCategoria(id_categoria);
         if(listadoProductos.isEmpty()){
-            throw new ResourceNotFoundException("NF-202", "No existen productos correspondientes a la categoría con ID "+id_categoria);
+            throw new ResourceNotFoundException("NF-203", "No existen productos correspondientes a la categoría con ID "+id_categoria);
         }
         return listadoProductos;
     }

@@ -52,9 +52,7 @@ public class ReservaService implements BaseService<Reserva> {
     }
 
     @Override
-    public boolean delete(Integer id) {
-        return false;
-    }
+    public boolean delete(Integer id) {return false;}
 
     @Override
     public Reserva modify(Integer id, Reserva element) {

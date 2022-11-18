@@ -1,6 +1,7 @@
 package com.example.DigitalBookingBEG6.service.impl;
 
 import com.example.DigitalBookingBEG6.exceptions.ResourceNotFoundException;
+import com.example.DigitalBookingBEG6.model.Categoria;
 import com.example.DigitalBookingBEG6.model.Usuario;
 import com.example.DigitalBookingBEG6.repository.UsuarioRepository;
 import com.example.DigitalBookingBEG6.service.BaseService;
@@ -33,17 +34,12 @@ public class UsuarioService implements BaseService<Usuario> {
 
     @Override
     public boolean delete(Integer id) {
-        boolean deleted = false;
-        try{
-            Optional<Usuario> opt = usuarioRepository.findById(id);
-            if(opt.isPresent()){
-                usuarioRepository.deleteById(id);
-                deleted = true;
-            }
-        }catch (Exception e){
-            throw e;
+        Optional<Usuario> opt = usuarioRepository.findById(id);
+        if(opt.isEmpty()){
+            throw new ResourceNotFoundException("NF-101", "No existe el usuario con ID " + id);
         }
-        return deleted;
+        usuarioRepository.deleteById(id);
+        return true;
     }
 
     @Override

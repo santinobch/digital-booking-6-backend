@@ -42,7 +42,8 @@ public class ReservaController {
         return ResponseEntity.ok(reservaService.findByIdProducto(id));
     }
 
-
-
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> borrar(@PathVariable Integer id){
+        return ResponseEntity.status(204).body(reservaService.delete(id));
+    }
 }
