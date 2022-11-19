@@ -24,15 +24,9 @@ import java.util.Optional;
 public class ProductoController {
     @Autowired
     private final ProductoService service;
-    @Autowired
-    private final CiudadService ciudadService;
-    @Autowired
-    private final CategoriaService categoriaService;
 
     public ProductoController(ProductoService service, CiudadService ciudadService, CategoriaService categoriaService) {
         this.service = service;
-        this.ciudadService = ciudadService;
-        this.categoriaService = categoriaService;
     }
 
     @GetMapping("/")

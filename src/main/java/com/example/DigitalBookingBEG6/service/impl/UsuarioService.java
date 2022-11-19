@@ -1,18 +1,24 @@
 package com.example.DigitalBookingBEG6.service.impl;
 
 import com.example.DigitalBookingBEG6.exceptions.ResourceNotFoundException;
-import com.example.DigitalBookingBEG6.model.Categoria;
-import com.example.DigitalBookingBEG6.model.Rol;
 import com.example.DigitalBookingBEG6.model.Usuario;
 import com.example.DigitalBookingBEG6.repository.UsuarioRepository;
 import com.example.DigitalBookingBEG6.service.BaseService;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
-public class UsuarioService implements BaseService<Usuario> {
+public class UsuarioService implements BaseService<Usuario>{
     private final UsuarioRepository usuarioRepository;
 
     public UsuarioService(UsuarioRepository usuarioRepository) {

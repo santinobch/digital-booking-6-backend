@@ -1,4 +1,4 @@
-package com.example.DigitalBookingBEG6.dto;
+package com.example.DigitalBookingBEG6.model.dto;
 
 import lombok.Builder;
 import lombok.Data;
