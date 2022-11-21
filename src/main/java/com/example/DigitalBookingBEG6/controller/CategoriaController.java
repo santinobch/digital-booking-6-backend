@@ -8,12 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/categorias")
+@RequestMapping("/categories")
 public class CategoriaController {
     @Autowired
     private final CategoriaService service;
@@ -22,68 +23,28 @@ public class CategoriaController {
         this.service = service;
     }
 
-    @GetMapping("/all")
+    @GetMapping("/")
     public ResponseEntity<List<Categoria>> listAll(Model model) {
         return ResponseEntity.ok(service.getAll());
     }
 
-    @PostMapping("/new")
-    public ResponseEntity<Categoria> nuevo(@RequestBody Categoria categoria){
-        try {
-            return ResponseEntity.ok(service.save(categoria));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+    @PostMapping("/")
+    public ResponseEntity<Categoria> nuevo(@Valid @RequestBody Categoria categoria){
+        return ResponseEntity.status(201).body(service.save(categoria));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> borrar(@PathVariable (value = "id", required = true) Integer id){
-        ResponseEntity<?> response = null;
-        try {
-            if(service.delete(id)){
-                response = ResponseEntity.status(HttpStatus.OK).body("Deleted");
-            } else {
-                response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe la categoría con ID "+id);
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-        return response;
+    public ResponseEntity<?> borrar(@PathVariable Integer id){
+        return ResponseEntity.status(204).body(service.delete(id));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> get(@PathVariable (value = "id", required = true) Integer id) {
-        ResponseEntity<?> response = null;
-        try {
-            Optional<Categoria> categoria = service.getById(id);
-            if(categoria.isPresent()){
-                response = ResponseEntity.ok(categoria.get());
-            } else {
-                response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe la categoría con ID " + id);
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-        return response;
+    public ResponseEntity<?> get(@PathVariable Integer id) {
+        return ResponseEntity.ok(service.getById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> modify(@PathVariable (value = "id", required = true) Integer id, @RequestBody Categoria categoria){
-        ResponseEntity<?> response = null;
-        try {
-            Categoria request = service.modify(id, categoria);
-            if (request.getId() == null){
-                response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe la categoría con ID " + id);
-            } else {
-                response = ResponseEntity.ok(request);
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-        return response;
+    public ResponseEntity<?> modify(@PathVariable Integer id, @RequestBody Categoria categoria){
+        return ResponseEntity.ok(service.modify(id, categoria));
     }
 }

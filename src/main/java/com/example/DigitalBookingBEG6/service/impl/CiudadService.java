@@ -1,5 +1,6 @@
 package com.example.DigitalBookingBEG6.service.impl;
 
+import com.example.DigitalBookingBEG6.exceptions.ResourceNotFoundException;
 import com.example.DigitalBookingBEG6.model.Categoria;
 import com.example.DigitalBookingBEG6.model.Ciudad;
 import com.example.DigitalBookingBEG6.repository.CiudadRepository;
@@ -25,41 +26,35 @@ public class CiudadService implements BaseService<Ciudad> {
 
     @Override
     public List<Ciudad> getAll() {
-        return ciudadRepository.findAll();
+        List<Ciudad> ciudadesEncontradas = ciudadRepository.findAll();
+        if(ciudadesEncontradas.isEmpty()){
+            throw new ResourceNotFoundException("NF-400", "No hay ciudades registradas en la base de datos");
+        }
+        return ciudadesEncontradas;
     }
 
     @Override
     public boolean delete(Integer id) {
-        boolean deleted = false;
-        try{
-            Optional<Ciudad> opt = ciudadRepository.findById(id);
-            if(opt.isPresent()){
-                ciudadRepository.deleteById(id);
-                deleted = true;
-            }
-        }catch (Exception e){
-            throw e;
+        Optional<Ciudad> opt = ciudadRepository.findById(id);
+        if(opt.isEmpty()){
+            throw new ResourceNotFoundException("NF-401", "No existe la ciudad con ID " + id);
         }
-        return deleted;
+        ciudadRepository.deleteById(id);
+        return true;
     }
 
     @Override
     public Ciudad modify(Integer id, Ciudad element) {
-        Ciudad ciudad = new Ciudad();
-        try{
-            Optional<Ciudad> opt = ciudadRepository.findById(id);
-            if(opt.isPresent()){
-                element.setId(id);
-                ciudad =  this.save(element);
-            }
-        }catch (Exception e){
-            throw e;
+        Optional<Ciudad> opt = ciudadRepository.findById(id);
+        if (opt.isEmpty()) {
+            throw new ResourceNotFoundException("NF-401", "No existe la ciudad con ID " + id);
         }
-        return ciudad;
+        return this.save(element);
     }
 
     @Override
-    public Optional<Ciudad> getById(Integer id) {
-        return ciudadRepository.findById(id);
+    public Ciudad getById(Integer id) {
+        return ciudadRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("NF-401", "No existe la ciudad con ID " + id));
     }
 }

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Getter
@@ -21,21 +22,20 @@ public class Producto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_producto")
     private Integer id;
-
     @Column
+    @NotEmpty
     private String titulo;
-
     @Column
+    @NotEmpty
     private String descripcion;
-
     @ManyToOne
+    @NotEmpty
     @JoinColumn(name="id_categoria")
     private Categoria categoria;
-
     @ManyToOne
     @JoinColumn(name="id_ciudad")
+    @NotEmpty
     private Ciudad ciudad;
-
     @JsonManagedReference
     @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Imagen> imagenes;
@@ -53,5 +53,9 @@ public class Producto {
         this.ciudad = ciudad;
         this.imagenes = imagenes;
         this.caracteristicas = caracteristicas;
+    }
+
+    public Producto(Integer id){
+        this.id = id;
     }
 }
