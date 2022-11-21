@@ -26,10 +26,6 @@ public class ReservaService implements BaseService<Reserva> {
         Usuario user = usuarioService.getById(element.getUsuario().getId());
         Producto producto = productoService.getById(element.getProducto().getId());
 
-        // TODO: Confirmar como hacer las validaciones y corregir
-        //if(user || producto){
-          //  return reservaRepository.save(element);
-       // }
         return reservaRepository.save(element);
     }
 
