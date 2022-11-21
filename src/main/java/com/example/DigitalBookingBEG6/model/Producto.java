@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter
@@ -29,12 +30,12 @@ public class Producto {
     @NotEmpty
     private String descripcion;
     @ManyToOne
-    @NotEmpty
+    @NotNull
     @JoinColumn(name="id_categoria")
     private Categoria categoria;
     @ManyToOne
     @JoinColumn(name="id_ciudad")
-    @NotEmpty
+    @NotNull
     private Ciudad ciudad;
     @JsonManagedReference
     @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)

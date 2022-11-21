@@ -43,4 +43,9 @@ public class CiudadController {
     public ResponseEntity<?> modify(@PathVariable Integer id, @RequestBody Ciudad ciudad){
         return ResponseEntity.ok(service.modify(id, ciudad));
     }
+
+    @PostMapping("/")
+    public ResponseEntity<?> nueva(@RequestBody Ciudad ciudad){
+        return ResponseEntity.ok(service.save(ciudad));
+    }
 }

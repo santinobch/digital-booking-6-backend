@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -41,7 +42,7 @@ public class Usuario {
     private String ciudad;
     @ManyToOne
     @JoinColumn(name="id_rol")
-    @NotEmpty
+    @NotNull
     private Rol rol;
 
     public Usuario (Integer id){

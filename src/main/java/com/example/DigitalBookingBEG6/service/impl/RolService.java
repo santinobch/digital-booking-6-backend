@@ -1,11 +1,13 @@
 package com.example.DigitalBookingBEG6.service.impl;
 
+import com.example.DigitalBookingBEG6.exceptions.BusinessException;
 import com.example.DigitalBookingBEG6.exceptions.ResourceNotFoundException;
 import com.example.DigitalBookingBEG6.model.Categoria;
 import com.example.DigitalBookingBEG6.model.Reserva;
 import com.example.DigitalBookingBEG6.model.Rol;
 import com.example.DigitalBookingBEG6.repository.RolRepository;
 import com.example.DigitalBookingBEG6.service.BaseService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +23,9 @@ public class RolService implements BaseService<Rol> {
 
     @Override
     public Rol save(Rol element) {
+        if(rolRepository.findByNombre(element.getNombre()) != null){
+            throw new BusinessException("BL-700", "El rol ya existe", HttpStatus.CONFLICT);
+        }
         return rolRepository.save(element);
     }
 

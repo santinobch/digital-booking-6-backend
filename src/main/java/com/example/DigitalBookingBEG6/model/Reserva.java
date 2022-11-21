@@ -40,11 +40,11 @@ public class Reserva {
     private LocalDate fechaHasta;
     @ManyToOne
     @JoinColumn(name="id_producto")
-    @NotEmpty
+    @NotNull
     private Producto producto;
     @ManyToOne
     @JoinColumn(name="id_usuario")
-    @NotEmpty
+    @NotNull
     private Usuario usuario;
 
 }

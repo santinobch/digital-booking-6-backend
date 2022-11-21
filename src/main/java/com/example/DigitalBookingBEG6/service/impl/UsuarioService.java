@@ -1,9 +1,11 @@
 package com.example.DigitalBookingBEG6.service.impl;
 
+import com.example.DigitalBookingBEG6.exceptions.BusinessException;
 import com.example.DigitalBookingBEG6.exceptions.ResourceNotFoundException;
 import com.example.DigitalBookingBEG6.model.Usuario;
 import com.example.DigitalBookingBEG6.repository.UsuarioRepository;
 import com.example.DigitalBookingBEG6.service.BaseService;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -27,6 +29,12 @@ public class UsuarioService implements BaseService<Usuario>{
 
     @Override
     public Usuario save(Usuario element) {
+        if(usuarioRepository.findByUsername(element.getUsername()) != null){
+            throw new BusinessException("BL-100", "El nombre de usuario ya existe", HttpStatus.CONFLICT);
+        } else if (usuarioRepository.findByEmail(element.getEmail()) != null){
+            throw new BusinessException("BL-101", "El mail ya se encuentra registrado", HttpStatus.CONFLICT);
+        }
+
         return usuarioRepository.save(element);
     }
 

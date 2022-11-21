@@ -23,7 +23,7 @@ public class AuthenticationController {
     @Autowired
     private JwtUtil jwtUtil;
 
-    @PostMapping(value = "/auth")
+    @PostMapping(value = "/auth/")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequestDTO AuthenticationRequestDTO) throws Exception{
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(

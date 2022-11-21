@@ -25,7 +25,7 @@ public class Imagen {
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name="id_producto")
-    @NotEmpty
+    @NotNull
     private Producto producto;
 
     public Imagen(String titulo, String url){

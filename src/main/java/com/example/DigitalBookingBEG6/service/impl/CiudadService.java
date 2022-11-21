@@ -1,10 +1,12 @@
 package com.example.DigitalBookingBEG6.service.impl;
 
+import com.example.DigitalBookingBEG6.exceptions.BusinessException;
 import com.example.DigitalBookingBEG6.exceptions.ResourceNotFoundException;
 import com.example.DigitalBookingBEG6.model.Categoria;
 import com.example.DigitalBookingBEG6.model.Ciudad;
 import com.example.DigitalBookingBEG6.repository.CiudadRepository;
 import com.example.DigitalBookingBEG6.service.BaseService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +23,9 @@ public class CiudadService implements BaseService<Ciudad> {
 
     @Override
     public Ciudad save(Ciudad element) {
+        if(ciudadRepository.findByNombreAndPais(element.getNombre(), element.getPais()) != null){
+            throw new BusinessException("BL-400", "La ciudad ya se encuentra registrada", HttpStatus.CONFLICT);
+        }
         return ciudadRepository.save(element);
     }
 

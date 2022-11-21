@@ -1,11 +1,13 @@
 package com.example.DigitalBookingBEG6.service.impl;
 
+import com.example.DigitalBookingBEG6.exceptions.BusinessException;
 import com.example.DigitalBookingBEG6.exceptions.ResourceNotFoundException;
 import com.example.DigitalBookingBEG6.model.Categoria;
 import com.example.DigitalBookingBEG6.model.Imagen;
 import com.example.DigitalBookingBEG6.model.Producto;
 import com.example.DigitalBookingBEG6.repository.ProductoRepository;
 import com.example.DigitalBookingBEG6.service.BaseService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +23,9 @@ public class ProductoService implements BaseService<Producto> {
 
     @Override
     public Producto save(Producto element) {
+        if(productoRepository.findByTitulo(element.getTitulo()) != null){
+            throw new BusinessException("BL-200", "El titulo del producto ya se encuentra registrado", HttpStatus.CONFLICT);
+        }
         return productoRepository.save(element);
     }
 
