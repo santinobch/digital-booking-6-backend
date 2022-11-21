@@ -1,15 +1,24 @@
 package com.example.DigitalBookingBEG6.service.impl;
 
+import com.example.DigitalBookingBEG6.exceptions.ResourceNotFoundException;
 import com.example.DigitalBookingBEG6.model.Usuario;
 import com.example.DigitalBookingBEG6.repository.UsuarioRepository;
 import com.example.DigitalBookingBEG6.service.BaseService;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
-public class UsuarioService implements BaseService<Usuario> {
+public class UsuarioService implements BaseService<Usuario>{
     private final UsuarioRepository usuarioRepository;
 
     public UsuarioService(UsuarioRepository usuarioRepository) {
@@ -23,42 +32,36 @@ public class UsuarioService implements BaseService<Usuario> {
 
     @Override
     public List<Usuario> getAll() {
-        return usuarioRepository.findAll();
+        List usuariosEncontrados = usuarioRepository.findAll();
+        if(usuariosEncontrados.isEmpty()){
+            throw new ResourceNotFoundException("NF-100", "No hay usuarios registrados en la base de datos");
+        }
+        return usuariosEncontrados;
     }
 
     @Override
     public boolean delete(Integer id) {
-        boolean deleted = false;
-        try{
-            Optional<Usuario> opt = usuarioRepository.findById(id);
-            if(opt.isPresent()){
-                usuarioRepository.deleteById(id);
-                deleted = true;
-            }
-        }catch (Exception e){
-            throw e;
+        Optional<Usuario> opt = usuarioRepository.findById(id);
+        if(opt.isEmpty()){
+            throw new ResourceNotFoundException("NF-101", "No existe el usuario con ID " + id);
         }
-        return deleted;
+        usuarioRepository.deleteById(id);
+        return true;
     }
 
     @Override
     public Usuario modify(Integer id, Usuario element) {
-        Usuario usuario = new Usuario();
-        try{
-            Optional<Usuario> opt = usuarioRepository.findById(id);
-            if(opt.isPresent()){
-                element.setId(id);
-                usuario =  this.save(element);
-            }
-        }catch (Exception e){
-            throw e;
+        Optional<Usuario> opt = usuarioRepository.findById(id);
+        if (opt.isEmpty()) {
+            throw new ResourceNotFoundException("NF-101", "No existe el usuario con ID " + id);
         }
-        return usuario;
+        return this.save(element);
     }
 
     @Override
-    public Optional<Usuario> getById(Integer id) {
-        return usuarioRepository.findById(id);
+    public Usuario getById(Integer id) {
+        return usuarioRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("NF-101", "No existe el usuario con ID " + id));
     }
 
     public Usuario findByEmail(String email) {

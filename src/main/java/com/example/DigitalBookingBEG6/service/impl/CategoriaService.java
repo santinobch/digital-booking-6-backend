@@ -1,5 +1,6 @@
 package com.example.DigitalBookingBEG6.service.impl;
 
+import com.example.DigitalBookingBEG6.exceptions.ResourceNotFoundException;
 import com.example.DigitalBookingBEG6.model.Categoria;
 import com.example.DigitalBookingBEG6.repository.CategoriaRepository;
 import com.example.DigitalBookingBEG6.service.BaseService;
@@ -19,7 +20,11 @@ public class CategoriaService implements BaseService<Categoria> {
 
     @Override
     public List<Categoria> getAll() {
-        return categoriaRepository.findAll();
+        List<Categoria> categoriasEncontradas = categoriaRepository.findAll();
+        if(categoriasEncontradas.isEmpty()){
+            throw new ResourceNotFoundException("NF-600", "No hay categorías registradas en la base de datos");
+        }
+        return categoriasEncontradas;
     }
 
     @Override
@@ -29,36 +34,26 @@ public class CategoriaService implements BaseService<Categoria> {
 
     @Override
     public boolean delete(Integer id) {
-        boolean deleted = false;
-        try{
-            Optional<Categoria> opt = categoriaRepository.findById(id);
-            if(opt.isPresent()){
-                categoriaRepository.deleteById(id);
-                deleted = true;
-            }
-        }catch (Exception e){
-            throw e;
+        Optional<Categoria> opt = categoriaRepository.findById(id);
+        if(opt.isEmpty()){
+            throw new ResourceNotFoundException("NF-601", "No existe la categoría con ID "+id);
         }
-        return deleted;
+        categoriaRepository.deleteById(id);
+        return true;
     }
 
     @Override
     public Categoria modify(Integer id, Categoria element) {
-        Categoria categoria = new Categoria();
-        try{
-            Optional<Categoria> opt = categoriaRepository.findById(id);
-            if(opt.isPresent()){
-                element.setId(id);
-                categoria =  this.save(element);
-            }
-        }catch (Exception e){
-            throw e;
+        Optional<Categoria> opt = categoriaRepository.findById(id);
+        if (opt.isEmpty()) {
+            throw new ResourceNotFoundException("NF-601", "No existe la categoría con ID " + id);
         }
-        return categoria;
+        return this.save(element);
     }
 
     @Override
-    public Optional<Categoria> getById(Integer id) {
-        return categoriaRepository.findById(id);
+    public Categoria getById(Integer id) {
+        return categoriaRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("NF-601", "No existe la categoría con ID " + id));
     }
 }

@@ -7,8 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.NotEmpty;
 
 @Getter
 @Setter
@@ -23,23 +22,26 @@ public class Usuario {
     @Column(name="id_usuario")
     private Integer id;
     @Column
-    @NotNull
+    @NotEmpty
     private String username;
     @Column
-    @NotNull
+    @NotEmpty
     private String nombre;
     @Column
-    @NotNull
+    @NotEmpty
     private String apellido;
     @Column
     @Email
+    @NotEmpty
     private String email;
     @Column
+    @NotEmpty
     private String password;
     @Column
     private String ciudad;
     @ManyToOne
     @JoinColumn(name="id_rol")
+    @NotEmpty
     private Rol rol;
 
     public Usuario (Integer id){

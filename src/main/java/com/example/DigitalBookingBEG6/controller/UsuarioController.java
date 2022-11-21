@@ -1,5 +1,6 @@
 package com.example.DigitalBookingBEG6.controller;
 
+import com.example.DigitalBookingBEG6.model.Rol;
 import com.example.DigitalBookingBEG6.model.Usuario;
 import com.example.DigitalBookingBEG6.service.impl.UsuarioService;
 import org.springframework.http.HttpStatus;
@@ -21,35 +22,28 @@ public class UsuarioController {
         this.service = service;
     }
 
-    @GetMapping("/all")
+    @GetMapping("/")
     public ResponseEntity<List<Usuario>> listAll(Model model) {
         return ResponseEntity.ok(service.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> get(@PathVariable Integer id) {
-        ResponseEntity<?> response;
-        try {
-            Optional<Usuario> usuario = service.getById(id);
-            if (usuario.isPresent()) {
-                response = ResponseEntity.ok(usuario.get());
-            } else {
-                response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe el usuario con ID " + id);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-        return response;
+    public ResponseEntity get(@PathVariable Integer id) {
+        return ResponseEntity.ok(service.getById(id));
     }
 
-    @PostMapping("/new")
+    @PostMapping("/")
     public ResponseEntity<Usuario> nuevo(@Valid @RequestBody Usuario usuario){
-        try {
-            return ResponseEntity.ok(service.save(usuario));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+        return ResponseEntity.status(201).body(service.save(usuario));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> borrar(@PathVariable Integer id){
+        return ResponseEntity.status(204).body(service.delete(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> modify(@PathVariable Integer id, @RequestBody Usuario usuario){
+        return ResponseEntity.ok(service.modify(id, usuario));
     }
 }

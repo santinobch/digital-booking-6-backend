@@ -1,6 +1,7 @@
 package com.example.DigitalBookingBEG6.controller;
 
 import com.example.DigitalBookingBEG6.model.Categoria;
+import com.example.DigitalBookingBEG6.model.Ciudad;
 import com.example.DigitalBookingBEG6.model.Imagen;
 import com.example.DigitalBookingBEG6.service.impl.ImagenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import java.util.Optional;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/imagenes")
+@RequestMapping("/images")
 public class ImagenController {
     @Autowired
     private final ImagenService service;
@@ -23,25 +24,23 @@ public class ImagenController {
         this.service = service;
     }
 
-    @GetMapping("/all")
+    @GetMapping("/")
     public ResponseEntity<List<Imagen>> listAll(Model model) {
         return ResponseEntity.ok(service.getAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> get(@PathVariable(value = "id") Integer id) {
-        ResponseEntity<?> response;
-        try {
-            Optional<Imagen> imagen = service.getById(id);
-            if (imagen.isPresent()) {
-                response = ResponseEntity.ok(imagen.get());
-            } else {
-                response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe la imagen con ID " + id);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-        return response;
+        return ResponseEntity.ok(service.getById(id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> borrar(@PathVariable Integer id){
+        return ResponseEntity.status(204).body(service.delete(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> modify(@PathVariable Integer id, @RequestBody Imagen imagen){
+        return ResponseEntity.ok(service.modify(id, imagen));
     }
 }

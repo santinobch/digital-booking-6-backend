@@ -1,5 +1,6 @@
 package com.example.DigitalBookingBEG6.service.impl;
 
+import com.example.DigitalBookingBEG6.exceptions.ResourceNotFoundException;
 import com.example.DigitalBookingBEG6.model.Producto;
 import com.example.DigitalBookingBEG6.model.Reserva;
 import com.example.DigitalBookingBEG6.model.Usuario;
@@ -22,42 +23,45 @@ public class ReservaService implements BaseService<Reserva> {
 
     @Override
     public Reserva save(Reserva element) {
-        Optional<Usuario> user = usuarioService.getById(element.getUsuario().getId());
-        Optional<Producto> producto = productoService.getById(element.getProducto().getId());
+        Usuario user = usuarioService.getById(element.getUsuario().getId());
+        Producto producto = productoService.getById(element.getProducto().getId());
 
-        // TODO: Confirmar como hacer las validaciones y corregir
-        if(user.isPresent() && producto.isPresent()){
-            return reservaRepository.save(element);
-        }
         return reservaRepository.save(element);
     }
 
-    public List<Reserva> findByIdProducto(Integer id) throws Exception {
-        Optional<Producto> producto = productoService.getById(id);
-        if(producto.isPresent()){
-            return reservaRepository.findByProducto(producto.get());
-        } else {
-            throw new Exception("No encontrado");
+    public List<Reserva> findByIdProducto(Integer id) {
+        Producto producto = productoService.getById(id);
+        List listadoReservas = reservaRepository.findByProducto(producto);
+        if(listadoReservas.isEmpty()){
+            throw new ResourceNotFoundException("NF-302", "No existen reservas correspondientes al producto "+id);
         }
+        return reservaRepository.findByProducto(producto);
     }
 
     @Override
     public List<Reserva> getAll() {
-        return reservaRepository.findAll();
+        List<Reserva> reservasEncontradas = reservaRepository.findAll();
+        if(reservasEncontradas.isEmpty()){
+            throw new ResourceNotFoundException("NF-300", "No hay reservas registradas en la base de datos");
+        }
+        return reservasEncontradas;
     }
 
     @Override
-    public boolean delete(Integer id) {
-        return false;
-    }
+    public boolean delete(Integer id) {return false;}
 
     @Override
     public Reserva modify(Integer id, Reserva element) {
-        return null;
+        Optional<Reserva> opt = reservaRepository.findById(id);
+        if (opt.isEmpty()) {
+            throw new ResourceNotFoundException("NF-301", "No existe la reserva con ID " + id);
+        }
+        return this.save(element);
     }
 
     @Override
-    public Optional<Reserva> getById(Integer id) {
-        return reservaRepository.findById(id);
+    public Reserva getById(Integer id) {
+        return reservaRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("NF-301", "No existe la reserva con ID " + id));
     }
 }

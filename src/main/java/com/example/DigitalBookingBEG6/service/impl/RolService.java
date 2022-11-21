@@ -1,5 +1,8 @@
 package com.example.DigitalBookingBEG6.service.impl;
 
+import com.example.DigitalBookingBEG6.exceptions.ResourceNotFoundException;
+import com.example.DigitalBookingBEG6.model.Categoria;
+import com.example.DigitalBookingBEG6.model.Reserva;
 import com.example.DigitalBookingBEG6.model.Rol;
 import com.example.DigitalBookingBEG6.repository.RolRepository;
 import com.example.DigitalBookingBEG6.service.BaseService;
@@ -23,41 +26,35 @@ public class RolService implements BaseService<Rol> {
 
     @Override
     public List<Rol> getAll() {
-        return rolRepository.findAll();
+        List<Rol> rolesEncontradas = rolRepository.findAll();
+        if(rolesEncontradas.isEmpty()){
+            throw new ResourceNotFoundException("NF-700", "No hay roles registrados en la base de datos");
+        }
+        return rolesEncontradas;
     }
 
     @Override
     public boolean delete(Integer id) {
-        boolean deleted = false;
-        try{
-            Optional<Rol> opt = rolRepository.findById(id);
-            if(opt.isPresent()){
-                rolRepository.deleteById(id);
-                deleted = true;
-            }
-        }catch (Exception e){
-            throw e;
+        Optional<Rol> opt = rolRepository.findById(id);
+        if(opt.isEmpty()){
+            throw new ResourceNotFoundException("NF-701", "No existe el rol con ID " + id);
         }
-        return deleted;
+        rolRepository.deleteById(id);
+        return true;
     }
 
     @Override
     public Rol modify(Integer id, Rol element) {
-        Rol rol = new Rol();
-        try{
-            Optional<Rol> opt = rolRepository.findById(id);
-            if(opt.isPresent()){
-                element.setId(id);
-                rol =  this.save(element);
-            }
-        }catch (Exception e){
-            throw e;
+        Optional<Rol> opt = rolRepository.findById(id);
+        if (opt.isEmpty()) {
+            throw new ResourceNotFoundException("NF-701", "No existe el rol con ID " + id);
         }
-        return rol;
+        return this.save(element);
     }
 
     @Override
-    public Optional<Rol> getById(Integer id) {
-        return rolRepository.findById(id);
+    public Rol getById(Integer id) {
+        return rolRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("NF-701", "No existe el rol con ID " + id));
     }
 }
