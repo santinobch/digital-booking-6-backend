@@ -1,5 +1,6 @@
-package com.example.DigitalBookingBEG6.jwt;
+package com.example.DigitalBookingBEG6.config;
 
+import com.example.DigitalBookingBEG6.jwt.JwtRequestFilter;
 import com.example.DigitalBookingBEG6.service.impl.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -41,7 +42,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST,"/products/").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.POST, "/bookings/").hasAuthority("CLIENT")
                 .antMatchers( "/bookings/product/**").permitAll()
-                .antMatchers( "/swagger-ui.html",
+                .antMatchers( "/swagger","/swagger-ui.html",
                         "/v3/api-docs/**",
                         "/swagger-ui/**",
                         "/swagger-resources/**",
