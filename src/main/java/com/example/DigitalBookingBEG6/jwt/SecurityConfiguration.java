@@ -35,7 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/categories/**").permitAll()
                 .antMatchers("/cities/**").permitAll()
                 .antMatchers("/images/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/products/").permitAll()
+                .antMatchers(HttpMethod.GET, "/products/**").permitAll()
                 .antMatchers( "/products/city/**").permitAll()
                 .antMatchers( "/products/category/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/products/").hasAuthority("ADMIN")
