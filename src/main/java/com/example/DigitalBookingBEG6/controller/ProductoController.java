@@ -54,11 +54,6 @@ public class ProductoController {
         return ResponseEntity.ok(service.modify(id, producto));
     }
 
-    @GetMapping("/random")
-    public ResponseEntity<List<Producto>> getRandom(){
-        return ResponseEntity.ok(service.obtener4RandomProductos());
-    }
-
     @GetMapping("/city/{id}")
     public ResponseEntity<?> getProductosByIdCiudad(@PathVariable Integer id){
         return ResponseEntity.ok(service.getProductosByIdCiudad(id));

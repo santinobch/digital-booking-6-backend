@@ -3,6 +3,7 @@ package com.example.DigitalBookingBEG6.controller;
 import com.example.DigitalBookingBEG6.jwt.JwtUtil;
 import com.example.DigitalBookingBEG6.model.dto.AuthenticationRequestDTO;
 import com.example.DigitalBookingBEG6.model.dto.AuthenticationResponseDTO;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
