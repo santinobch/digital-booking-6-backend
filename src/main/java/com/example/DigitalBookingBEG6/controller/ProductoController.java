@@ -60,16 +60,16 @@ public class ProductoController {
         return ResponseEntity.ok(service.getProductosByIdCategoria(id));
     }
 
-    @GetMapping("/{fechaInicio}/{fechaFin}")
-    public ResponseEntity<?> getProductosByCityAndBetweenDates(@PathVariable("fechaInicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)LocalDate fechaInicio,
-                                                               @PathVariable("fechaFin") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin)
+    @GetMapping("/dates")
+    public ResponseEntity<?> getProductosByCityAndBetweenDates(@RequestParam(value = "from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)LocalDate fechaInicio,
+                                                               @RequestParam(value = "to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin)
     {
-        return ResponseEntity.ok(service.getProductosBetweenDates(fechaInicio, fechaInicio));
+        return ResponseEntity.ok(service.getProductosBetweenDates(fechaInicio, fechaFin));
     }
 
-    @GetMapping("/city/{id}/{fechaInicio}/{fechaFin}")
-    public ResponseEntity<?> getProductosByCityAndBetweenDates(@PathVariable("fechaInicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)LocalDate fechaInicio,
-                                                               @PathVariable("fechaFin") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin,
+    @GetMapping("/city/{id}/dates")
+    public ResponseEntity<?> getProductosByCityAndBetweenDates(@RequestParam(value = "from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)LocalDate fechaInicio,
+                                                               @RequestParam(value = "to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin,
                                                                @PathVariable("id") Integer id)
     {
         return ResponseEntity.ok(service.getProductosByCityAndBetweenDates(id, fechaInicio, fechaFin));

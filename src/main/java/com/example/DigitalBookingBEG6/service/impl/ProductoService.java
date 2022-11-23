@@ -1,5 +1,6 @@
 package com.example.DigitalBookingBEG6.service.impl;
 
+import com.example.DigitalBookingBEG6.exceptions.BadRequestException;
 import com.example.DigitalBookingBEG6.exceptions.BusinessException;
 import com.example.DigitalBookingBEG6.exceptions.ResourceNotFoundException;
 import com.example.DigitalBookingBEG6.model.Producto;
@@ -83,6 +84,9 @@ public class ProductoService implements BaseService<Producto> {
     }
 
     public List<Producto> getProductosBetweenDates(LocalDate fechaInicio, LocalDate fechaFin){
+        if(fechaInicio.isAfter(fechaFin)){
+            throw new BadRequestException("BR-200","La fecha final debe ser posterior a la fecha inicial");
+        }
         List<Producto> listadoProductos = productoRepository.getProductosBetweenDates(fechaInicio, fechaFin);
         if(listadoProductos.isEmpty()){
             throw new ResourceNotFoundException("NF-204", "No existen productos disponibles entre "+fechaInicio+" y "+fechaFin);
