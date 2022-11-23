@@ -6,18 +6,10 @@ import com.example.DigitalBookingBEG6.model.Usuario;
 import com.example.DigitalBookingBEG6.repository.UsuarioRepository;
 import com.example.DigitalBookingBEG6.service.BaseService;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class UsuarioService implements BaseService<Usuario>{
@@ -29,9 +21,9 @@ public class UsuarioService implements BaseService<Usuario>{
 
     @Override
     public Usuario save(Usuario element) {
-        if(usuarioRepository.findByUsername(element.getUsername()) != null){
+        if(usuarioRepository.findByUsername(element.getUsername()).isPresent()){
             throw new BusinessException("BL-100", "El nombre de usuario ya existe", HttpStatus.CONFLICT);
-        } else if (usuarioRepository.findByEmail(element.getEmail()) != null){
+        } else if (usuarioRepository.findByEmail(element.getEmail()).isPresent()){
             throw new BusinessException("BL-101", "El mail ya se encuentra registrado", HttpStatus.CONFLICT);
         }
 
@@ -40,7 +32,7 @@ public class UsuarioService implements BaseService<Usuario>{
 
     @Override
     public List<Usuario> getAll() {
-        List usuariosEncontrados = usuarioRepository.findAll();
+        List<Usuario> usuariosEncontrados = usuarioRepository.findAll();
         if(usuariosEncontrados.isEmpty()){
             throw new ResourceNotFoundException("NF-100", "No hay usuarios registrados en la base de datos");
         }
@@ -73,10 +65,12 @@ public class UsuarioService implements BaseService<Usuario>{
     }
 
     public Usuario findByEmail(String email) {
-        return usuarioRepository.findByEmail(email);
+        return usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("NF-101", "No existe el usuario con email " + email));
     }
 
     public Usuario findByUsername(String username) {
-        return usuarioRepository.findByUsername(username);
+        return usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("NF-101", "No existe el usuario con usuario " + username));
     }
 }

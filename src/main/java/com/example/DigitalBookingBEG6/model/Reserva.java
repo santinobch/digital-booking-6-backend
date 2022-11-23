@@ -27,16 +27,15 @@ public class Reserva {
     @Column(name="id_reserva")
     private Integer id;
     @Column
-    @JsonFormat(pattern = "hh:mm")
-    @NotEmpty
+    @NotNull
     private LocalTime hora;
     @Column(name="fecha_desde")
     @JsonFormat(pattern = "dd/MM/yyyy")
-    @NotEmpty
+    @NotNull
     private LocalDate fechaDesde;
     @Column(name="fecha_hasta")
     @JsonFormat(pattern = "dd/MM/yyyy")
-    @NotEmpty
+    @NotNull
     private LocalDate fechaHasta;
     @ManyToOne
     @JoinColumn(name="id_producto")

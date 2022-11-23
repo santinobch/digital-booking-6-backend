@@ -17,11 +17,11 @@ import java.util.Set;
 @Service
 public class MyUserDetailsService implements UserDetailsService {
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UsuarioService usuarioService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Usuario usuario = usuarioRepository.findByUsername(username);
+        Usuario usuario = usuarioService.findByUsername(username);
         String rol = usuario.getRol().getNombre();
         Set<GrantedAuthority> autorizaciones = new HashSet();
         autorizaciones.add(new SimpleGrantedAuthority(rol));

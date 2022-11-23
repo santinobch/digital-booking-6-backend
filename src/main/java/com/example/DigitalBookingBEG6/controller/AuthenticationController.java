@@ -1,8 +1,11 @@
 package com.example.DigitalBookingBEG6.controller;
 
 import com.example.DigitalBookingBEG6.jwt.JwtUtil;
+import com.example.DigitalBookingBEG6.model.Usuario;
 import com.example.DigitalBookingBEG6.model.dto.AuthenticationRequestDTO;
 import com.example.DigitalBookingBEG6.model.dto.AuthenticationResponseDTO;
+import com.example.DigitalBookingBEG6.repository.UsuarioRepository;
+import com.example.DigitalBookingBEG6.service.impl.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @RestController
 public class AuthenticationController {
     @Autowired
@@ -22,21 +27,23 @@ public class AuthenticationController {
     @Autowired
     private UserDetailsService userDetailsService;
     @Autowired
+    private UsuarioService usuarioService;
+    @Autowired
     private JwtUtil jwtUtil;
 
     @PostMapping(value = "/auth/")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequestDTO AuthenticationRequestDTO) throws Exception{
         try {
+            Usuario usuario = usuarioService.findByEmail(AuthenticationRequestDTO.getEmail());
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                    AuthenticationRequestDTO.getUsername(),
+                    usuario.getUsername(),
                     AuthenticationRequestDTO.getPassword()
             ));
+            final UserDetails userDetails = userDetailsService.loadUserByUsername(usuario.getUsername());
+            final String jwt = jwtUtil.generateToken(userDetails);
+            return ResponseEntity.ok(new AuthenticationResponseDTO((jwt), userDetails.getUsername()));
         } catch (BadCredentialsException e) {
             throw new Exception("Credenciales incorrectas", e);
         }
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(AuthenticationRequestDTO.getUsername());
-        //generamos el token JWT
-        final String jwt = jwtUtil.generateToken(userDetails);
-        return ResponseEntity.ok(new AuthenticationResponseDTO((jwt), userDetails.getUsername()));
     }
 }
