@@ -1,22 +1,18 @@
 package com.example.DigitalBookingBEG6.controller;
 
-import com.example.DigitalBookingBEG6.model.Categoria;
-import com.example.DigitalBookingBEG6.model.Ciudad;
-import com.example.DigitalBookingBEG6.model.Imagen;
 import com.example.DigitalBookingBEG6.model.Producto;
 import com.example.DigitalBookingBEG6.service.impl.CategoriaService;
 import com.example.DigitalBookingBEG6.service.impl.CiudadService;
 import com.example.DigitalBookingBEG6.service.impl.ProductoService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -62,5 +58,20 @@ public class ProductoController {
     @GetMapping("/category/{id}")
     public ResponseEntity<?> getProductosByIdCategoria(@PathVariable Integer id){
         return ResponseEntity.ok(service.getProductosByIdCategoria(id));
+    }
+
+    @GetMapping("/{fechaInicio}/{fechaFin}")
+    public ResponseEntity<?> getProductosByCityAndBetweenDates(@PathVariable("fechaInicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)LocalDate fechaInicio,
+                                                               @PathVariable("fechaFin") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin)
+    {
+        return ResponseEntity.ok(service.getProductosBetweenDates(fechaInicio, fechaInicio));
+    }
+
+    @GetMapping("/city/{id}/{fechaInicio}/{fechaFin}")
+    public ResponseEntity<?> getProductosByCityAndBetweenDates(@PathVariable("fechaInicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)LocalDate fechaInicio,
+                                                               @PathVariable("fechaFin") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin,
+                                                               @PathVariable("id") Integer id)
+    {
+        return ResponseEntity.ok(service.getProductosByCityAndBetweenDates(id, fechaInicio, fechaFin));
     }
 }

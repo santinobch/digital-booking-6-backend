@@ -41,6 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers( "/products/category/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/products/").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.POST, "/bookings/").hasAuthority("CLIENT")
+                .antMatchers( "/products/category/**").permitAll()
                 .antMatchers( "/bookings/product/**").permitAll()
                 .antMatchers( "/swagger","/swagger-ui.html",
                         "/v3/api-docs/**",

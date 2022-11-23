@@ -2,14 +2,13 @@ package com.example.DigitalBookingBEG6.service.impl;
 
 import com.example.DigitalBookingBEG6.exceptions.BusinessException;
 import com.example.DigitalBookingBEG6.exceptions.ResourceNotFoundException;
-import com.example.DigitalBookingBEG6.model.Categoria;
-import com.example.DigitalBookingBEG6.model.Imagen;
 import com.example.DigitalBookingBEG6.model.Producto;
 import com.example.DigitalBookingBEG6.repository.ProductoRepository;
 import com.example.DigitalBookingBEG6.service.BaseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,9 +75,25 @@ public class ProductoService implements BaseService<Producto> {
     }
 
     public List<Producto> getProductosByIdCategoria(Integer id_categoria){
-        List listadoProductos = productoRepository.getProductosByCategoria(id_categoria);
+        List<Producto> listadoProductos = productoRepository.getProductosByCategoria(id_categoria);
         if(listadoProductos.isEmpty()){
             throw new ResourceNotFoundException("NF-203", "No existen productos correspondientes a la categoría con ID "+id_categoria);
+        }
+        return listadoProductos;
+    }
+
+    public List<Producto> getProductosBetweenDates(LocalDate fechaInicio, LocalDate fechaFin){
+        List<Producto> listadoProductos = productoRepository.getProductosBetweenDates(fechaInicio, fechaFin);
+        if(listadoProductos.isEmpty()){
+            throw new ResourceNotFoundException("NF-204", "No existen productos disponibles entre "+fechaInicio+" y "+fechaFin);
+        }
+        return listadoProductos;
+    }
+
+    public List<Producto> getProductosByCityAndBetweenDates(Integer id_ciudad, LocalDate fechaInicio, LocalDate fechaFin){
+        List<Producto> listadoProductos = productoRepository.getProductosByCityAndBetweenDates(id_ciudad, fechaInicio, fechaFin);
+        if(listadoProductos.isEmpty()){
+            throw new ResourceNotFoundException("NF-205", "No existen productos disponibles en la ciudad con ID "+id_ciudad+" entre "+fechaInicio+" y "+fechaFin);
         }
         return listadoProductos;
     }
