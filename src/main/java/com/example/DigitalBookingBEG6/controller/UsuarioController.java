@@ -46,4 +46,9 @@ public class UsuarioController {
     public ResponseEntity<?> modify(@PathVariable Integer id, @RequestBody Usuario usuario){
         return ResponseEntity.ok(service.modify(id, usuario));
     }
+
+    @GetMapping()
+    public ResponseEntity<?> getByUsername(@RequestParam(value = "username") String username){
+        return ResponseEntity.ok(service.findByUsername(username));
+    }
 }

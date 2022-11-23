@@ -37,6 +37,6 @@ public class AuthenticationController {
         final UserDetails userDetails = userDetailsService.loadUserByUsername(AuthenticationRequestDTO.getUsername());
         //generamos el token JWT
         final String jwt = jwtUtil.generateToken(userDetails);
-        return ResponseEntity.ok(new AuthenticationResponseDTO((jwt)));
+        return ResponseEntity.ok(new AuthenticationResponseDTO((jwt), userDetails.getUsername()));
     }
 }
