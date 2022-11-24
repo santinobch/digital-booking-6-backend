@@ -30,11 +30,9 @@ public class Reserva {
     @NotNull
     private LocalTime hora;
     @Column(name="fecha_desde")
-    @JsonFormat(pattern = "dd/MM/yyyy")
     @NotNull
     private LocalDate fechaDesde;
     @Column(name="fecha_hasta")
-    @JsonFormat(pattern = "dd/MM/yyyy")
     @NotNull
     private LocalDate fechaHasta;
     @ManyToOne
