@@ -9,6 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UsuarioCreacionDTO extends UsuarioDTO{
-    private String password;
+public class CiudadDTO {
+    private String id;
+    private String nombre;
+    private String pais;
 }

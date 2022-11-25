@@ -13,6 +13,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReservaDTO {
+    private Integer idReserva;
     private Integer idProducto;
     private String username;
     private LocalTime hora;

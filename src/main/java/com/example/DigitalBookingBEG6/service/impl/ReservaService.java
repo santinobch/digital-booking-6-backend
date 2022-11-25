@@ -1,9 +1,10 @@
 package com.example.DigitalBookingBEG6.service.impl;
 
 import com.example.DigitalBookingBEG6.exceptions.ResourceNotFoundException;
+import com.example.DigitalBookingBEG6.mappers.GenericModelMapper;
 import com.example.DigitalBookingBEG6.model.Producto;
 import com.example.DigitalBookingBEG6.model.Reserva;
-import com.example.DigitalBookingBEG6.model.Usuario;
+import com.example.DigitalBookingBEG6.model.dto.ReservaDTO;
 import com.example.DigitalBookingBEG6.repository.ReservaRepository;
 import com.example.DigitalBookingBEG6.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,57 +12,65 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
-public class ReservaService implements BaseService<Reserva> {
+public class ReservaService implements BaseService<ReservaDTO> {
     @Autowired
     private UsuarioService usuarioService;
     @Autowired
     private ProductoService productoService;
     @Autowired
     private ReservaRepository reservaRepository;
+    @Autowired
+    private GenericModelMapper genericModelMapper;
 
     @Override
-    public Reserva save(Reserva element) {
-        Usuario user = usuarioService.getById(element.getUsuario().getUsuarioId());
-        Producto producto = productoService.getById(element.getProducto().getProductoId());
-
-        return reservaRepository.save(element);
+    public ReservaDTO save(ReservaDTO element) {
+        usuarioService.findByUsername(element.getUsername());
+        productoService.getById(element.getIdProducto());
+        Reserva reserva = reservaRepository.save(genericModelMapper.mapToReserva(element));
+        return genericModelMapper.mapToReservaDTO(reserva);
     }
 
-    public List<Reserva> findByIdProducto(Integer id) {
-        Producto producto = productoService.getById(id);
+    public List<ReservaDTO> findByIdProducto(Integer id) {
+        Producto producto = genericModelMapper.mapToProducto(productoService.getById(id));
         List<Reserva> listadoReservas = reservaRepository.findByProducto(producto);
         if(listadoReservas.isEmpty()){
             throw new ResourceNotFoundException("NF-302", "No existen reservas correspondientes al producto "+id);
         }
-        return reservaRepository.findByProducto(producto);
+        return listadoReservas.stream().map(e -> genericModelMapper.mapToReservaDTO(e)).collect(Collectors.toList());
     }
 
     @Override
-    public List<Reserva> getAll() {
-        List<Reserva> reservasEncontradas = reservaRepository.findAll();
-        if(reservasEncontradas.isEmpty()){
+    public List<ReservaDTO> getAll() {
+        List<Reserva> listadoReservas = reservaRepository.findAll();
+        if(listadoReservas.isEmpty()){
             throw new ResourceNotFoundException("NF-300", "No hay reservas registradas en la base de datos");
         }
-        return reservasEncontradas;
+        return listadoReservas.stream().map(e -> genericModelMapper.mapToReservaDTO(e)).collect(Collectors.toList());
     }
 
     @Override
-    public boolean delete(Integer id) {return false;}
-
-    @Override
-    public Reserva modify(Integer id, Reserva element) {
+    public boolean delete(Integer id) {
         Optional<Reserva> opt = reservaRepository.findById(id);
-        if (opt.isEmpty()) {
-            throw new ResourceNotFoundException("NF-301", "No existe la reserva con ID " + id);
+        if(opt.isEmpty()){
+            throw new ResourceNotFoundException("NF-701", "No existe el rol con ID " + id);
         }
-        return this.save(element);
+        reservaRepository.deleteById(id);
+        return true;
     }
 
     @Override
-    public Reserva getById(Integer id) {
-        return reservaRepository.findById(id)
+    public ReservaDTO modify(Integer id, ReservaDTO element) {
+        return null;
+    }
+
+    @Override
+    public ReservaDTO getById(Integer id) {
+        Reserva reserva = reservaRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("NF-301", "No existe la reserva con ID " + id));
+
+        return genericModelMapper.mapToReservaDTO(reserva);
     }
 }

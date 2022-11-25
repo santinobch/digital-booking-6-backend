@@ -22,4 +22,8 @@ public class Rol {
     @Column(name="nombre")
     @NotEmpty
     private String rolNombre;
+
+    public Rol (String rolNombre){
+        this.rolNombre = rolNombre;
+    }
 }

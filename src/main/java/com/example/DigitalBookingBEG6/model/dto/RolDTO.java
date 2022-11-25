@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UsuarioCreacionDTO extends UsuarioDTO{
-    private String password;
+public class RolDTO {
+    private Integer id;
+    private String nombre;
 }

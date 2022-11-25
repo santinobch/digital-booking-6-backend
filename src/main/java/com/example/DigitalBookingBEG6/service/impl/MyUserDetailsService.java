@@ -1,6 +1,7 @@
 package com.example.DigitalBookingBEG6.service.impl;
 
 import com.example.DigitalBookingBEG6.model.Usuario;
+import com.example.DigitalBookingBEG6.model.dto.UsuarioDTO;
 import com.example.DigitalBookingBEG6.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,7 +22,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Usuario usuario = usuarioService.findByUsername(username);
+        Usuario usuario = usuarioService.loadByUsername(username);
         String rol = usuario.getUsuarioRol().getRolNombre();
         Set<GrantedAuthority> autorizaciones = new HashSet();
         autorizaciones.add(new SimpleGrantedAuthority(rol));

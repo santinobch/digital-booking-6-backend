@@ -14,5 +14,6 @@ public class UsuarioDTO {
     private String nombre;
     private String apellido;
     private String email;
-    private String Ciudad;
+    private String ciudad;
+    private String rol;
 }

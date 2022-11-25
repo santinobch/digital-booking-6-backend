@@ -2,6 +2,7 @@ package com.example.DigitalBookingBEG6.controller;
 
 import com.example.DigitalBookingBEG6.model.Producto;
 import com.example.DigitalBookingBEG6.model.Reserva;
+import com.example.DigitalBookingBEG6.model.dto.ReservaDTO;
 import com.example.DigitalBookingBEG6.service.impl.ProductoService;
 import com.example.DigitalBookingBEG6.service.impl.ReservaService;
 import com.example.DigitalBookingBEG6.service.impl.UsuarioService;
@@ -24,12 +25,12 @@ public class ReservaController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<?> nuevaReserva(@Valid @RequestBody Reserva reserva){
-        return ResponseEntity.status(201).body(reservaService.save(reserva));
+    public ResponseEntity<?> nuevaReserva(@Valid @RequestBody ReservaDTO reservaDTO){
+        return ResponseEntity.status(201).body(reservaService.save(reservaDTO));
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Reserva>> listAll(Model model) {
+    public ResponseEntity<List<ReservaDTO>> listAll(Model model) {
         return ResponseEntity.ok(reservaService.getAll());
     }
 
@@ -46,10 +47,5 @@ public class ReservaController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> borrar(@PathVariable Integer id){
         return ResponseEntity.status(204).body(reservaService.delete(id));
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<?> modify(@PathVariable Integer id, @Valid @RequestBody Reserva reserva){
-        return ResponseEntity.ok(reservaService.modify(id, reserva));
     }
 }

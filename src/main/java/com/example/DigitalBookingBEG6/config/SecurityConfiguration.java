@@ -33,6 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/auth/").permitAll()
                 .antMatchers(HttpMethod.POST, "/users/").permitAll()
                 .antMatchers("/roles/**").permitAll()
+                .antMatchers("/register/").permitAll()
                 .antMatchers("/categories/**").permitAll()
                 .antMatchers("/cities/**").permitAll()
                 .antMatchers("/images/**").permitAll()

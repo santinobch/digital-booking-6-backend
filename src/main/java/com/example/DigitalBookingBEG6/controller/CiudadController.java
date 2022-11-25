@@ -2,6 +2,7 @@ package com.example.DigitalBookingBEG6.controller;
 
 import com.example.DigitalBookingBEG6.model.Categoria;
 import com.example.DigitalBookingBEG6.model.Ciudad;
+import com.example.DigitalBookingBEG6.model.dto.CiudadDTO;
 import com.example.DigitalBookingBEG6.service.impl.CiudadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ public class CiudadController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Ciudad>> listAll(Model model) {
+    public ResponseEntity<List<CiudadDTO>> listAll(Model model) {
         return ResponseEntity.ok(service.getAll());
     }
 
@@ -40,12 +41,12 @@ public class CiudadController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> modify(@PathVariable Integer id, @RequestBody Ciudad ciudad){
-        return ResponseEntity.ok(service.modify(id, ciudad));
+    public ResponseEntity<?> modify(@PathVariable Integer id, @RequestBody CiudadDTO ciudadDTO){
+        return ResponseEntity.ok(service.modify(id, ciudadDTO));
     }
 
     @PostMapping("/")
-    public ResponseEntity<?> nueva(@RequestBody Ciudad ciudad){
-        return ResponseEntity.ok(service.save(ciudad));
+    public ResponseEntity<?> nueva(@RequestBody CiudadDTO ciudadDTO){
+        return ResponseEntity.ok(service.save(ciudadDTO));
     }
 }
