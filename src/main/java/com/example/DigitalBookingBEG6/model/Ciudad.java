@@ -20,10 +20,10 @@ public class Ciudad {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_ciudad")
     private Integer ciudadId;
-    @Column
+    @Column(name="nombre")
     @NotEmpty
     private String ciudadNombre;
-    @Column
+    @Column(name="pais")
     @NotEmpty
     private String ciudadPais;
 

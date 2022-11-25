@@ -36,5 +36,5 @@ public interface ProductoRepository extends JpaRepository<Producto, Integer> {
                     " group by p.id_producto; ", nativeQuery = true)
     List<Producto> getProductosByCityAndBetweenDates(Integer ciudades_id, LocalDate fechaInicial, LocalDate fechaFinal);
 
-    Producto findByTitulo(String titulo);
+    Producto findByProductoTitulo(String titulo);
 }

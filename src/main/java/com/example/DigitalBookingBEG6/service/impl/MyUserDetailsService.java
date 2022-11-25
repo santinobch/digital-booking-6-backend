@@ -22,10 +22,10 @@ public class MyUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Usuario usuario = usuarioService.findByUsername(username);
-        String rol = usuario.getRol().getNombre();
+        String rol = usuario.getUsuarioRol().getRolNombre();
         Set<GrantedAuthority> autorizaciones = new HashSet();
         autorizaciones.add(new SimpleGrantedAuthority(rol));
 
-        return new User(username, "{noop}"+usuario.getPassword(), true, true, true, true, autorizaciones);
+        return new User(username, "{noop}"+usuario.getUsuarioPassword(), true, true, true, true, autorizaciones);
     }
 }

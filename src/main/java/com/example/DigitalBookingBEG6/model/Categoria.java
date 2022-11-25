@@ -16,13 +16,13 @@ public class Categoria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_categoria")
     private Integer categoriaId;
-    @Column
+    @Column(name="titulo")
     @NotEmpty
     private String categoriaTitulo;
-    @Column
+    @Column(name="descripcion")
     @NotNull
     private String categoriaDescripcion;
-    @Column
+    @Column(name="url")
     private String categoriaUrl;
 
     public Categoria(String titulo, String descripcion, String url) {

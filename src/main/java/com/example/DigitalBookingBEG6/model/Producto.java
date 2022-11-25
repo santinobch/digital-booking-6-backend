@@ -23,10 +23,10 @@ public class Producto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_producto")
     private Integer productoId;
-    @Column
+    @Column(name="titulo")
     @NotEmpty
     private String productoTitulo;
-    @Column
+    @Column(name="descripcion")
     @NotEmpty
     private String productoDescripcion;
     @ManyToOne

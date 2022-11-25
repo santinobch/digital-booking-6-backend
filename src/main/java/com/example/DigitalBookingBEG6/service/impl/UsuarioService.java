@@ -23,7 +23,7 @@ public class UsuarioService implements BaseService<Usuario>{
     public Usuario save(Usuario element) {
         if(usuarioRepository.findByUsername(element.getUsername()).isPresent()){
             throw new BusinessException("BL-100", "El nombre de usuario ya existe", HttpStatus.CONFLICT);
-        } else if (usuarioRepository.findByEmail(element.getEmail()).isPresent()){
+        } else if (usuarioRepository.findByUsuarioEmail(element.getUsuarioEmail()).isPresent()){
             throw new BusinessException("BL-101", "El mail ya se encuentra registrado", HttpStatus.CONFLICT);
         }
 
@@ -65,7 +65,7 @@ public class UsuarioService implements BaseService<Usuario>{
     }
 
     public Usuario findByEmail(String email) {
-        return usuarioRepository.findByEmail(email)
+        return usuarioRepository.findByUsuarioEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("NF-101", "No existe el usuario con email " + email));
     }
 

@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface CiudadRepository extends JpaRepository<Ciudad, Integer> {
-    Ciudad findByNombreAndPais(String nombre, String pais);
+    Ciudad findByCiudadNombreAndCiudadPais(String ciudadNombre, String ciudadPais);
 }

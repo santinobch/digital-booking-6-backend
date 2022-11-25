@@ -23,7 +23,7 @@ public class CiudadService implements BaseService<Ciudad> {
 
     @Override
     public Ciudad save(Ciudad element) {
-        if(ciudadRepository.findByNombreAndPais(element.getNombre(), element.getPais()) != null){
+        if(ciudadRepository.findByCiudadNombreAndCiudadPais(element.getCiudadNombre(), element.getCiudadPais()) != null){
             throw new BusinessException("BL-400", "La ciudad ya se encuentra registrada", HttpStatus.CONFLICT);
         }
         return ciudadRepository.save(element);

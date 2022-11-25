@@ -16,10 +16,10 @@ public class Imagen {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_imagen")
     private Integer imagenId;
-    @Column
+    @Column(name="titulo")
     @NotNull
     private String imagenTitulo;
-    @Column
+    @Column(name="url")
     @NotEmpty
     private String imagenUrl;
     @JsonBackReference

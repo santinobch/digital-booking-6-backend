@@ -26,7 +26,7 @@ public class Reserva {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_reserva")
     private Integer reservaId;
-    @Column
+    @Column(name="hora")
     @NotNull
     private LocalTime reservaHora;
     @Column(name="fecha_desde")

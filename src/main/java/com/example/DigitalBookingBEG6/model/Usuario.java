@@ -22,23 +22,23 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_usuario")
     private Integer usuarioId;
-    @Column
+    @Column(name="username")
     @NotEmpty
-    private String usuarioUsername;
-    @Column
+    private String username;
+    @Column(name="nombre")
     @NotEmpty
     private String usuarioNombre;
-    @Column
+    @Column(name="apellido")
     @NotEmpty
     private String usuarioApellido;
-    @Column
+    @Column(name="email")
     @Email
     @NotEmpty
     private String usuarioEmail;
-    @Column
+    @Column(name="password")
     @NotEmpty
     private String usuarioPassword;
-    @Column
+    @Column(name="ciudad")
     private String usuarioCiudad;
     @ManyToOne
     @JoinColumn(name="id_rol")
@@ -47,5 +47,9 @@ public class Usuario {
 
     public Usuario (Integer id){
         this.usuarioId = id;
+    }
+
+    public Usuario (String username){
+        this.username = username;
     }
 }

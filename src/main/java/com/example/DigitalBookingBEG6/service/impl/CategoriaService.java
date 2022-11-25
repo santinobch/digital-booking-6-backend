@@ -31,7 +31,7 @@ public class CategoriaService implements BaseService<Categoria> {
 
     @Override
     public Categoria save(Categoria element) {
-        if(categoriaRepository.findByTitulo(element.getTitulo()) != null){
+        if(categoriaRepository.findByCategoriaTitulo(element.getCategoriaTitulo()) != null){
             throw new BusinessException("BL-600", "La categoría ya se encuentra registrada", HttpStatus.CONFLICT);
         }
         return categoriaRepository.save(element);

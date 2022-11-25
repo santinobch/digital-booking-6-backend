@@ -23,7 +23,7 @@ public class ProductoService implements BaseService<Producto> {
 
     @Override
     public Producto save(Producto element) {
-        if(productoRepository.findByTitulo(element.getTitulo()) != null){
+        if(productoRepository.findByProductoTitulo(element.getProductoTitulo()) != null){
             throw new BusinessException("BL-200", "El titulo del producto ya se encuentra registrado", HttpStatus.CONFLICT);
         }
         return productoRepository.save(element);

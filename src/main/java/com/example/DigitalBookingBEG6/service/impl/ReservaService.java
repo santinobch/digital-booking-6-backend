@@ -23,15 +23,15 @@ public class ReservaService implements BaseService<Reserva> {
 
     @Override
     public Reserva save(Reserva element) {
-        Usuario user = usuarioService.getById(element.getUsuario().getId());
-        Producto producto = productoService.getById(element.getProducto().getId());
+        Usuario user = usuarioService.getById(element.getUsuario().getUsuarioId());
+        Producto producto = productoService.getById(element.getProducto().getProductoId());
 
         return reservaRepository.save(element);
     }
 
     public List<Reserva> findByIdProducto(Integer id) {
         Producto producto = productoService.getById(id);
-        List listadoReservas = reservaRepository.findByProducto(producto);
+        List<Reserva> listadoReservas = reservaRepository.findByProducto(producto);
         if(listadoReservas.isEmpty()){
             throw new ResourceNotFoundException("NF-302", "No existen reservas correspondientes al producto "+id);
         }

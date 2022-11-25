@@ -23,7 +23,7 @@ public class RolService implements BaseService<Rol> {
 
     @Override
     public Rol save(Rol element) {
-        if(rolRepository.findByNombre(element.getNombre()) != null){
+        if(rolRepository.findByRolNombre(element.getRolNombre()) != null){
             throw new BusinessException("BL-700", "El rol ya existe", HttpStatus.CONFLICT);
         }
         return rolRepository.save(element);
