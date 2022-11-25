@@ -15,13 +15,13 @@ public class Imagen {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_imagen")
-    private Integer id;
+    private Integer imagenId;
     @Column
     @NotNull
-    private String titulo;
+    private String imagenTitulo;
     @Column
     @NotEmpty
-    private String url;
+    private String imagenUrl;
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name="id_producto")
@@ -29,7 +29,7 @@ public class Imagen {
     private Producto producto;
 
     public Imagen(String titulo, String url){
-        this.titulo = titulo;
-        this.url = url;
+        this.imagenTitulo = titulo;
+        this.imagenUrl = url;
     }
 }

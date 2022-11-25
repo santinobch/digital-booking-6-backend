@@ -22,13 +22,13 @@ public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_producto")
-    private Integer id;
+    private Integer productoId;
     @Column
     @NotEmpty
-    private String titulo;
+    private String productoTitulo;
     @Column
     @NotEmpty
-    private String descripcion;
+    private String productoDescripcion;
     @ManyToOne
     @NotNull
     @JoinColumn(name="id_categoria")
@@ -48,8 +48,8 @@ public class Producto {
     private List<Caracteristica> caracteristicas;
 
     public Producto(String titulo, String descripcion, Categoria categoria, Ciudad ciudad, List<Imagen> imagenes, List<Caracteristica> caracteristicas) {
-        this.titulo = titulo;
-        this.descripcion = descripcion;
+        this.productoTitulo = titulo;
+        this.productoDescripcion = descripcion;
         this.categoria = categoria;
         this.ciudad = ciudad;
         this.imagenes = imagenes;
@@ -57,6 +57,6 @@ public class Producto {
     }
 
     public Producto(Integer id){
-        this.id = id;
+        this.productoId = id;
     }
 }

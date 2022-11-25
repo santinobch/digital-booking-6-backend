@@ -19,16 +19,16 @@ public class Ciudad {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_ciudad")
-    private Integer id;
+    private Integer ciudadId;
     @Column
     @NotEmpty
-    private String nombre;
+    private String ciudadNombre;
     @Column
     @NotEmpty
-    private String pais;
+    private String ciudadPais;
 
     public Ciudad(String nombre, String pais){
-        this.nombre = nombre;
-        this.pais = pais;
+        this.ciudadNombre = nombre;
+        this.ciudadPais = pais;
     }
 }

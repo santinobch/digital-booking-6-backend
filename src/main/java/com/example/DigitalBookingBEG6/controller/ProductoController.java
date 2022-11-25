@@ -61,7 +61,7 @@ public class ProductoController {
     }
 
     @GetMapping("/dates")
-    public ResponseEntity<?> getProductosByCityAndBetweenDates(@RequestParam(value = "from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)LocalDate fechaInicio,
+    public ResponseEntity<?> getProductosBetweenDates(@RequestParam(value = "from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)LocalDate fechaInicio,
                                                                @RequestParam(value = "to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin)
     {
         return ResponseEntity.ok(service.getProductosBetweenDates(fechaInicio, fechaFin));

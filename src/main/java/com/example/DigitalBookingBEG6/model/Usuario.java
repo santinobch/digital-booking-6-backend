@@ -21,31 +21,31 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_usuario")
-    private Integer id;
+    private Integer usuarioId;
     @Column
     @NotEmpty
-    private String username;
+    private String usuarioUsername;
     @Column
     @NotEmpty
-    private String nombre;
+    private String usuarioNombre;
     @Column
     @NotEmpty
-    private String apellido;
+    private String usuarioApellido;
     @Column
     @Email
     @NotEmpty
-    private String email;
+    private String usuarioEmail;
     @Column
     @NotEmpty
-    private String password;
+    private String usuarioPassword;
     @Column
-    private String ciudad;
+    private String usuarioCiudad;
     @ManyToOne
     @JoinColumn(name="id_rol")
     @NotNull
-    private Rol rol;
+    private Rol usuarioRol;
 
     public Usuario (Integer id){
-        this.id = id;
+        this.usuarioId = id;
     }
 }
