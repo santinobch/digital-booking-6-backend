@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+.~lock.Diccionario de errores.ods#
+
+.~lock.Diccionario de errores.xlsx#

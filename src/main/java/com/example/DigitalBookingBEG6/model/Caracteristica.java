@@ -2,6 +2,7 @@ package com.example.DigitalBookingBEG6.model;
 
 import lombok.*;
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 @Getter
 @Setter
@@ -14,14 +15,15 @@ public class Caracteristica {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_caracteristica")
     private Integer id;
-    @Column
-    private String nombre;
-    @Column
-    private String icono;
+    @Column(name="nombre")
+    @NotEmpty
+    private String caracteristicaNombre;
+    @Column(name="icono")
+    private String caracteristicaIcono;
 
     public Caracteristica(String nombre, String icono){
-        this.nombre = nombre;
-        this.icono = icono;
+        this.caracteristicaNombre = nombre;
+        this.caracteristicaIcono = icono;
     }
 
     public Caracteristica (Integer id){

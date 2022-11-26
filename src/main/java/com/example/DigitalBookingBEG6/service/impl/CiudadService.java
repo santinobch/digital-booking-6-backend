@@ -1,65 +1,73 @@
 package com.example.DigitalBookingBEG6.service.impl;
 
+import com.example.DigitalBookingBEG6.exceptions.BusinessException;
+import com.example.DigitalBookingBEG6.exceptions.ResourceNotFoundException;
+import com.example.DigitalBookingBEG6.mappers.GenericModelMapper;
 import com.example.DigitalBookingBEG6.model.Categoria;
 import com.example.DigitalBookingBEG6.model.Ciudad;
+import com.example.DigitalBookingBEG6.model.dto.CiudadDTO;
 import com.example.DigitalBookingBEG6.repository.CiudadRepository;
 import com.example.DigitalBookingBEG6.service.BaseService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
-public class CiudadService implements BaseService<Ciudad> {
+public class CiudadService implements BaseService<CiudadDTO> {
 
     private final CiudadRepository ciudadRepository;
+    @Autowired
+    private GenericModelMapper genericModelMapper;
 
     public CiudadService(CiudadRepository ciudadRepository) {
         this.ciudadRepository = ciudadRepository;
     }
 
     @Override
-    public Ciudad save(Ciudad element) {
-        return ciudadRepository.save(element);
+    public CiudadDTO save(CiudadDTO element) {
+        if(ciudadRepository.findByCiudadNombreAndCiudadPais(element.getNombre(), element.getPais()) != null){
+            throw new BusinessException("BL-400", "La ciudad ya se encuentra registrada", HttpStatus.CONFLICT);
+        }
+        Ciudad ciudad =ciudadRepository.save(genericModelMapper.mapToCiudad(element));
+        return genericModelMapper.mapToCiudadDTO(ciudad);
     }
 
     @Override
-    public List<Ciudad> getAll() {
-        return ciudadRepository.findAll();
+    public List<CiudadDTO> getAll() {
+        List<Ciudad> listadoCiudades = ciudadRepository.findAll();
+        if(listadoCiudades.isEmpty()){
+            throw new ResourceNotFoundException("NF-400", "No hay ciudades registradas en la base de datos");
+        }
+        return listadoCiudades.stream().map(e -> genericModelMapper.mapToCiudadDTO(e)).collect(Collectors.toList());
     }
 
     @Override
     public boolean delete(Integer id) {
-        boolean deleted = false;
-        try{
-            Optional<Ciudad> opt = ciudadRepository.findById(id);
-            if(opt.isPresent()){
-                ciudadRepository.deleteById(id);
-                deleted = true;
-            }
-        }catch (Exception e){
-            throw e;
+        Optional<Ciudad> opt = ciudadRepository.findById(id);
+        if(opt.isEmpty()){
+            throw new ResourceNotFoundException("NF-401", "No existe la ciudad con ID " + id);
         }
-        return deleted;
+        ciudadRepository.deleteById(id);
+        return true;
     }
 
     @Override
-    public Ciudad modify(Integer id, Ciudad element) {
-        Ciudad ciudad = new Ciudad();
-        try{
-            Optional<Ciudad> opt = ciudadRepository.findById(id);
-            if(opt.isPresent()){
-                element.setId(id);
-                ciudad =  this.save(element);
-            }
-        }catch (Exception e){
-            throw e;
+    public CiudadDTO modify(Integer id, CiudadDTO element) {
+        Optional<Ciudad> opt = ciudadRepository.findById(id);
+        if (opt.isEmpty()) {
+            throw new ResourceNotFoundException("NF-401", "No existe la ciudad con ID " + id);
         }
-        return ciudad;
+        return this.save(element);
     }
 
     @Override
-    public Optional<Ciudad> getById(Integer id) {
-        return ciudadRepository.findById(id);
+    public CiudadDTO getById(Integer id) {
+        Ciudad ciudad = ciudadRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("NF-401", "No existe la ciudad con ID " + id));
+        return genericModelMapper.mapToCiudadDTO(ciudad);
     }
 }

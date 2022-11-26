@@ -1,5 +1,8 @@
 package com.example.DigitalBookingBEG6.service.impl;
 
+import com.example.DigitalBookingBEG6.exceptions.ResourceNotFoundException;
+import com.example.DigitalBookingBEG6.model.Categoria;
+import com.example.DigitalBookingBEG6.model.Ciudad;
 import com.example.DigitalBookingBEG6.model.Imagen;
 import com.example.DigitalBookingBEG6.repository.ImagenRepository;
 import com.example.DigitalBookingBEG6.service.BaseService;
@@ -23,41 +26,35 @@ public class ImagenService implements BaseService<Imagen> {
 
     @Override
     public List<Imagen> getAll() {
-        return imagenRepository.findAll();
+        List<Imagen> imagenesEncontradas = imagenRepository.findAll();
+        if(imagenesEncontradas.isEmpty()){
+            throw new ResourceNotFoundException("NF-500", "No hay imagenes registradas en la base de datos");
+        }
+        return imagenesEncontradas;
     }
 
     @Override
     public boolean delete(Integer id) {
-        boolean deleted = false;
-        try{
-            Optional<Imagen> opt = imagenRepository.findById(id);
-            if(opt.isPresent()){
-                imagenRepository.deleteById(id);
-                deleted = true;
-            }
-        }catch (Exception e){
-            throw e;
+        Optional<Imagen> opt = imagenRepository.findById(id);
+        if(opt.isEmpty()){
+            throw new ResourceNotFoundException("NF-501", "No existe la imagen con ID " + id);
         }
-        return deleted;
+        imagenRepository.deleteById(id);
+        return true;
     }
 
     @Override
     public Imagen modify(Integer id, Imagen element) {
-        Imagen imagen = new Imagen();
-        try{
-            Optional<Imagen> opt = imagenRepository.findById(id);
-            if(opt.isPresent()){
-                element.setId(id);
-                imagen =  this.save(element);
-            }
-        }catch (Exception e){
-            throw e;
+        Optional<Imagen> opt = imagenRepository.findById(id);
+        if (opt.isEmpty()) {
+            throw new ResourceNotFoundException("NF-501", "No existe la imagen con ID " + id);
         }
-        return imagen;
+        return this.save(element);
     }
 
     @Override
-    public Optional<Imagen> getById(Integer id) {
-        return imagenRepository.findById(id);
+    public Imagen getById(Integer id) {
+        return imagenRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("NF-501", "No existe la imagen con ID " + id));
     }
 }

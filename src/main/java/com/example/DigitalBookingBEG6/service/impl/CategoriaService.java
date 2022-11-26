@@ -1,64 +1,73 @@
 package com.example.DigitalBookingBEG6.service.impl;
 
+import com.example.DigitalBookingBEG6.exceptions.BusinessException;
+import com.example.DigitalBookingBEG6.exceptions.ResourceNotFoundException;
+import com.example.DigitalBookingBEG6.mappers.GenericModelMapper;
 import com.example.DigitalBookingBEG6.model.Categoria;
+import com.example.DigitalBookingBEG6.model.dto.CategoriaDTO;
 import com.example.DigitalBookingBEG6.repository.CategoriaRepository;
 import com.example.DigitalBookingBEG6.service.BaseService;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+@AllArgsConstructor
 @Service
-public class CategoriaService implements BaseService<Categoria> {
+public class CategoriaService implements BaseService<CategoriaDTO> {
 
+    @Autowired
     private final CategoriaRepository categoriaRepository;
+    @Autowired
+    private GenericModelMapper genericModelMapper;
 
-    public CategoriaService(CategoriaRepository categoriaRepository) {
-        this.categoriaRepository = categoriaRepository;
+
+    @Override
+    public CategoriaDTO save(CategoriaDTO element) {
+        if(categoriaRepository.findByCategoriaTitulo(element.getTitulo()) != null){
+            throw new BusinessException("BL-600", "La categoría ya se encuentra registrada", HttpStatus.CONFLICT);
+        }
+        Categoria categoria = categoriaRepository.save(genericModelMapper.mapToCategoria(element));
+        return genericModelMapper.mapToCategoriaDTO(categoria);
     }
 
     @Override
-    public List<Categoria> getAll() {
-        return categoriaRepository.findAll();
-    }
+    public List<CategoriaDTO> getAll() {
+        List<Categoria> listadoCategorias = categoriaRepository.findAll();
+        if(listadoCategorias.isEmpty()){
+            throw new ResourceNotFoundException("NF-600", "No hay categorías registradas en la base de datos");
+        }
 
-    @Override
-    public Categoria save(Categoria element) {
-        return categoriaRepository.save(element);
+        return listadoCategorias.stream().map(e -> genericModelMapper.mapToCategoriaDTO(e)).collect(Collectors.toList());
     }
 
     @Override
     public boolean delete(Integer id) {
-        boolean deleted = false;
-        try{
-            Optional<Categoria> opt = categoriaRepository.findById(id);
-            if(opt.isPresent()){
-                categoriaRepository.deleteById(id);
-                deleted = true;
-            }
-        }catch (Exception e){
-            throw e;
+        Optional<Categoria> opt = categoriaRepository.findById(id);
+        if(opt.isEmpty()){
+            throw new ResourceNotFoundException("NF-601", "No existe la categoría con ID "+id);
         }
-        return deleted;
+        categoriaRepository.deleteById(id);
+        return true;
     }
 
     @Override
-    public Categoria modify(Integer id, Categoria element) {
-        Categoria categoria = new Categoria();
-        try{
-            Optional<Categoria> opt = categoriaRepository.findById(id);
-            if(opt.isPresent()){
-                element.setId(id);
-                categoria =  this.save(element);
-            }
-        }catch (Exception e){
-            throw e;
+    public CategoriaDTO modify(Integer id, CategoriaDTO element) {
+        Optional<Categoria> opt = categoriaRepository.findById(id);
+        if (opt.isEmpty()) {
+            throw new ResourceNotFoundException("NF-601", "No existe la categoría con ID " + id);
         }
-        return categoria;
+        return this.save(element);
     }
 
     @Override
-    public Optional<Categoria> getById(Integer id) {
-        return categoriaRepository.findById(id);
+    public CategoriaDTO getById(Integer id) {
+        Categoria categoria = categoriaRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("NF-601", "No existe la categoría con ID " + id));
+        return genericModelMapper.mapToCategoriaDTO(categoria);
     }
 }
