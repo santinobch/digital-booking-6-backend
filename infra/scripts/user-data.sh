@@ -1,18 +1,20 @@
 #!/bin/bash
+yum update -y | tee /home/ec2-user/logs.txt
 
-apt update
+#instalar git en EC2
+yum install -y git  | tee /home/ec2-user/logs.txt
 
-apt install openjdk-8-jre openjdk-8-jdk
-cd /usr/lib/jvm/
-ls -la
-export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
-apt install openjdk-17-jdk
-apt install openjdk-17-jre
+#instalar apache HTTP server
+yum install -y httpd | tee /home/ec2-user/logs.txt
 
-sudo useradd -s /bin/bash -d /home/grupo6/ -m -G sudo grupo6
-su - grupo6
-cd ~
-git clone https://gitlab.ctd.academy/ctd/proyecto-integrador-1022/0521-pt-c8/grupo-06/-/tree/main/digital-booking-6-backend
-cd digital-booking-6-backend
-mvn clean install
-java -Dserver.port=80 -jar DigitalBooking-BE-G6.jar
+#instalar java
+yum install -y openjdk-18-jdk | tee /home/ec2-user/logs.txt
+
+#instalar apache maven
+yum install -y maven | tee /home/ec2-user/logs.txt
+
+#instalar jdk for springboot
+yum install -y java-1.8.0-openjdk-devel | tee /home/ec2-user/logs.txt
+yum install -y java-1.8.0-openjdk | tee /home/ec2-user/logs.txt
+
+# java -Dserver.port=80 -jar DigitalBooking-BE-G6.jar

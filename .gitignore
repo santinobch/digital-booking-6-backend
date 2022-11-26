@@ -38,3 +38,5 @@ build/
 *.terraform
 *.backup
 *.hcl
+*.pem
+*.pub
