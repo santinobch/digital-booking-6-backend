@@ -29,8 +29,12 @@ public class ReservaService implements BaseService<ReservaDTO> {
     public ReservaDTO save(ReservaDTO element) {
         usuarioService.findByUsername(element.getUsername());
         productoService.getById(element.getIdProducto());
-        Reserva reserva = reservaRepository.save(genericModelMapper.mapToReserva(element));
-        return genericModelMapper.mapToReservaDTO(reserva);
+        Reserva reserva = genericModelMapper.mapToReserva(element);
+        reserva.setUsuario(genericModelMapper.mapToUsuario(usuarioService.findByUsername(element.getUsername())));
+
+        System.out.println(reserva);
+        //reservaRepository.save(genericModelMapper.mapToReserva(element));
+        return genericModelMapper.mapToReservaDTO(reservaRepository.save(reserva));
     }
 
     public List<ReservaDTO> findByIdProducto(Integer id) {
