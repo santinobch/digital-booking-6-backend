@@ -15,19 +15,19 @@ public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_categoria")
-    private Integer id;
-    @Column
+    private Integer categoriaId;
+    @Column(name="titulo")
     @NotEmpty
-    private String titulo;
-    @Column
+    private String categoriaTitulo;
+    @Column(name="descripcion")
     @NotNull
-    private String descripcion;
-    @Column
-    private String url;
+    private String categoriaDescripcion;
+    @Column(name="url")
+    private String categoriaUrl;
 
     public Categoria(String titulo, String descripcion, String url) {
-        this.titulo = titulo;
-        this.descripcion = descripcion;
-        this.url = url;
+        this.categoriaTitulo = titulo;
+        this.categoriaDescripcion = descripcion;
+        this.categoriaUrl = url;
     }
 }

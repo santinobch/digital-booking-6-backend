@@ -25,16 +25,16 @@ public class Reserva {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_reserva")
-    private Integer id;
-    @Column
+    private Integer reservaId;
+    @Column(name="hora")
     @NotNull
-    private LocalTime hora;
+    private LocalTime reservaHora;
     @Column(name="fecha_desde")
     @NotNull
-    private LocalDate fechaDesde;
+    private LocalDate reservaFechaDesde;
     @Column(name="fecha_hasta")
     @NotNull
-    private LocalDate fechaHasta;
+    private LocalDate reservaFechaHasta;
     @ManyToOne
     @JoinColumn(name="id_producto")
     @NotNull

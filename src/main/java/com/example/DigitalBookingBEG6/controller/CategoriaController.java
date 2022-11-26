@@ -1,6 +1,7 @@
 package com.example.DigitalBookingBEG6.controller;
 
 import com.example.DigitalBookingBEG6.model.Categoria;
+import com.example.DigitalBookingBEG6.model.dto.CategoriaDTO;
 import com.example.DigitalBookingBEG6.service.impl.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,13 +25,13 @@ public class CategoriaController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Categoria>> listAll(Model model) {
+    public ResponseEntity<List<CategoriaDTO>> listAll(Model model) {
         return ResponseEntity.ok(service.getAll());
     }
 
     @PostMapping("/")
-    public ResponseEntity<Categoria> nuevo(@Valid @RequestBody Categoria categoria){
-        return ResponseEntity.status(201).body(service.save(categoria));
+    public ResponseEntity<CategoriaDTO> nuevo(@Valid @RequestBody CategoriaDTO categoriaDTO){
+        return ResponseEntity.status(201).body(service.save(categoriaDTO));
     }
 
     @DeleteMapping("/{id}")
@@ -44,7 +45,7 @@ public class CategoriaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> modify(@PathVariable Integer id, @RequestBody Categoria categoria){
-        return ResponseEntity.ok(service.modify(id, categoria));
+    public ResponseEntity<?> modify(@PathVariable Integer id, @RequestBody CategoriaDTO categoriaDTO){
+        return ResponseEntity.ok(service.modify(id, categoriaDTO));
     }
 }

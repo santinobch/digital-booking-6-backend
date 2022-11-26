@@ -4,6 +4,7 @@ import com.example.DigitalBookingBEG6.jwt.JwtUtil;
 import com.example.DigitalBookingBEG6.model.Usuario;
 import com.example.DigitalBookingBEG6.model.dto.AuthenticationRequestDTO;
 import com.example.DigitalBookingBEG6.model.dto.AuthenticationResponseDTO;
+import com.example.DigitalBookingBEG6.model.dto.UsuarioDTO;
 import com.example.DigitalBookingBEG6.repository.UsuarioRepository;
 import com.example.DigitalBookingBEG6.service.impl.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,12 +37,12 @@ public class AuthenticationController {
     @PostMapping(value = "/auth/")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequestDTO AuthenticationRequestDTO) throws Exception{
         try {
-            Usuario usuario = usuarioService.findByEmail(AuthenticationRequestDTO.getEmail());
+            UsuarioDTO usuarioDTO = usuarioService.findByEmail(AuthenticationRequestDTO.getEmail());
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                    usuario.getUsername(),
+                    usuarioDTO.getUsername(),
                     AuthenticationRequestDTO.getPassword()
             ));
-            final UserDetails userDetails = userDetailsService.loadUserByUsername(usuario.getUsername());
+            final UserDetails userDetails = userDetailsService.loadUserByUsername(usuarioDTO.getUsername());
             final String jwt = jwtUtil.generateToken(userDetails);
             return ResponseEntity.ok(new AuthenticationResponseDTO((jwt), userDetails.getUsername()));
         } catch (BadCredentialsException e) {

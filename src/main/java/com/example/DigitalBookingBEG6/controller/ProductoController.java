@@ -1,6 +1,7 @@
 package com.example.DigitalBookingBEG6.controller;
 
 import com.example.DigitalBookingBEG6.model.Producto;
+import com.example.DigitalBookingBEG6.model.dto.ProductoDTO;
 import com.example.DigitalBookingBEG6.service.impl.CategoriaService;
 import com.example.DigitalBookingBEG6.service.impl.CiudadService;
 import com.example.DigitalBookingBEG6.service.impl.ProductoService;
@@ -26,13 +27,13 @@ public class ProductoController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Producto>> listAll(Model model) {
+    public ResponseEntity<List<ProductoDTO>> listAll(Model model) {
         return ResponseEntity.ok(service.getAll());
     }
 
     @PostMapping("/")
-    public ResponseEntity<Producto> nuevo(@Valid @RequestBody Producto producto){
-        return ResponseEntity.status(201).body(service.save(producto));
+    public ResponseEntity<ProductoDTO> nuevo(@Valid @RequestBody ProductoDTO productoDTO){
+        return ResponseEntity.status(201).body(service.save(productoDTO));
     }
 
     @DeleteMapping("/{id}")
@@ -46,8 +47,8 @@ public class ProductoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> modify(@PathVariable Integer id, @Valid @RequestBody Producto producto){
-        return ResponseEntity.ok(service.modify(id, producto));
+    public ResponseEntity<?> modify(@PathVariable Integer id, @Valid @RequestBody ProductoDTO productoDTO){
+        return ResponseEntity.ok(service.modify(id, productoDTO));
     }
 
     @GetMapping("/city/{id}")
@@ -61,7 +62,7 @@ public class ProductoController {
     }
 
     @GetMapping("/dates")
-    public ResponseEntity<?> getProductosByCityAndBetweenDates(@RequestParam(value = "from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)LocalDate fechaInicio,
+    public ResponseEntity<?> getProductosBetweenDates(@RequestParam(value = "from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)LocalDate fechaInicio,
                                                                @RequestParam(value = "to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin)
     {
         return ResponseEntity.ok(service.getProductosBetweenDates(fechaInicio, fechaFin));

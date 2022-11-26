@@ -2,6 +2,7 @@ package com.example.DigitalBookingBEG6.controller;
 
 import com.example.DigitalBookingBEG6.model.Rol;
 import com.example.DigitalBookingBEG6.model.Usuario;
+import com.example.DigitalBookingBEG6.model.dto.UsuarioDTO;
 import com.example.DigitalBookingBEG6.service.impl.UsuarioService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,18 +24,13 @@ public class UsuarioController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Usuario>> listAll(Model model) {
+    public ResponseEntity<List<UsuarioDTO>> listAll(Model model) {
         return ResponseEntity.ok(service.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> get(@PathVariable Integer id) {
+    public ResponseEntity<UsuarioDTO> get(@PathVariable Integer id) {
         return ResponseEntity.ok(service.getById(id));
-    }
-
-    @PostMapping("/")
-    public ResponseEntity<Usuario> nuevo(@Valid @RequestBody Usuario usuario){
-        return ResponseEntity.status(201).body(service.save(usuario));
     }
 
     @DeleteMapping("/{id}")
@@ -43,8 +39,8 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> modify(@PathVariable Integer id, @RequestBody Usuario usuario){
-        return ResponseEntity.ok(service.modify(id, usuario));
+    public ResponseEntity<?> modify(@PathVariable Integer id, @RequestBody UsuarioDTO usuarioDTO){
+        return ResponseEntity.ok(service.modify(id, usuarioDTO));
     }
 
     @GetMapping()

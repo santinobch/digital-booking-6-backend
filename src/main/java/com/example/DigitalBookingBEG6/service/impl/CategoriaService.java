@@ -2,39 +2,47 @@ package com.example.DigitalBookingBEG6.service.impl;
 
 import com.example.DigitalBookingBEG6.exceptions.BusinessException;
 import com.example.DigitalBookingBEG6.exceptions.ResourceNotFoundException;
+import com.example.DigitalBookingBEG6.mappers.GenericModelMapper;
 import com.example.DigitalBookingBEG6.model.Categoria;
+import com.example.DigitalBookingBEG6.model.dto.CategoriaDTO;
 import com.example.DigitalBookingBEG6.repository.CategoriaRepository;
 import com.example.DigitalBookingBEG6.service.BaseService;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+@AllArgsConstructor
 @Service
-public class CategoriaService implements BaseService<Categoria> {
+public class CategoriaService implements BaseService<CategoriaDTO> {
 
+    @Autowired
     private final CategoriaRepository categoriaRepository;
+    @Autowired
+    private GenericModelMapper genericModelMapper;
 
-    public CategoriaService(CategoriaRepository categoriaRepository) {
-        this.categoriaRepository = categoriaRepository;
-    }
-
-    @Override
-    public List<Categoria> getAll() {
-        List<Categoria> categoriasEncontradas = categoriaRepository.findAll();
-        if(categoriasEncontradas.isEmpty()){
-            throw new ResourceNotFoundException("NF-600", "No hay categorías registradas en la base de datos");
-        }
-        return categoriasEncontradas;
-    }
 
     @Override
-    public Categoria save(Categoria element) {
-        if(categoriaRepository.findByTitulo(element.getTitulo()) != null){
+    public CategoriaDTO save(CategoriaDTO element) {
+        if(categoriaRepository.findByCategoriaTitulo(element.getTitulo()) != null){
             throw new BusinessException("BL-600", "La categoría ya se encuentra registrada", HttpStatus.CONFLICT);
         }
-        return categoriaRepository.save(element);
+        Categoria categoria = categoriaRepository.save(genericModelMapper.mapToCategoria(element));
+        return genericModelMapper.mapToCategoriaDTO(categoria);
+    }
+
+    @Override
+    public List<CategoriaDTO> getAll() {
+        List<Categoria> listadoCategorias = categoriaRepository.findAll();
+        if(listadoCategorias.isEmpty()){
+            throw new ResourceNotFoundException("NF-600", "No hay categorías registradas en la base de datos");
+        }
+
+        return listadoCategorias.stream().map(e -> genericModelMapper.mapToCategoriaDTO(e)).collect(Collectors.toList());
     }
 
     @Override
@@ -48,7 +56,7 @@ public class CategoriaService implements BaseService<Categoria> {
     }
 
     @Override
-    public Categoria modify(Integer id, Categoria element) {
+    public CategoriaDTO modify(Integer id, CategoriaDTO element) {
         Optional<Categoria> opt = categoriaRepository.findById(id);
         if (opt.isEmpty()) {
             throw new ResourceNotFoundException("NF-601", "No existe la categoría con ID " + id);
@@ -57,8 +65,9 @@ public class CategoriaService implements BaseService<Categoria> {
     }
 
     @Override
-    public Categoria getById(Integer id) {
-        return categoriaRepository.findById(id)
+    public CategoriaDTO getById(Integer id) {
+        Categoria categoria = categoriaRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("NF-601", "No existe la categoría con ID " + id));
+        return genericModelMapper.mapToCategoriaDTO(categoria);
     }
 }

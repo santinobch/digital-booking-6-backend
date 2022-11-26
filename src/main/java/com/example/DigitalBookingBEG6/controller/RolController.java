@@ -2,6 +2,7 @@ package com.example.DigitalBookingBEG6.controller;
 
 import com.example.DigitalBookingBEG6.model.Reserva;
 import com.example.DigitalBookingBEG6.model.Rol;
+import com.example.DigitalBookingBEG6.model.dto.RolDTO;
 import com.example.DigitalBookingBEG6.service.impl.RolService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class RolController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Rol>> listAll(Model model) {
+    public ResponseEntity<List<RolDTO>> listAll(Model model) {
         return ResponseEntity.ok(service.getAll());
     }
 
@@ -32,17 +33,12 @@ public class RolController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Rol> nuevo(@Valid @RequestBody Rol rol){
-        return ResponseEntity.status(201).body(service.save(rol));
+    public ResponseEntity<RolDTO> nuevo(@Valid @RequestBody RolDTO rolDTO){
+        return ResponseEntity.status(201).body(service.save(rolDTO));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> borrar(@PathVariable Integer id){
         return ResponseEntity.status(204).body(service.delete(id));
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<?> modify(@PathVariable Integer id, @RequestBody Rol rol){
-        return ResponseEntity.ok(service.modify(id, rol));
     }
 }

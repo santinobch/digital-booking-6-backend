@@ -18,8 +18,12 @@ public class Rol {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_rol")
-    private Integer id;
-    @Column
+    private Integer rolId;
+    @Column(name="nombre")
     @NotEmpty
-    private String nombre;
+    private String rolNombre;
+
+    public Rol (String rolNombre){
+        this.rolNombre = rolNombre;
+    }
 }
