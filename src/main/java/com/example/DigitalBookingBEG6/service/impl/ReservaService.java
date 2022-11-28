@@ -4,7 +4,9 @@ import com.example.DigitalBookingBEG6.exceptions.ResourceNotFoundException;
 import com.example.DigitalBookingBEG6.mappers.GenericModelMapper;
 import com.example.DigitalBookingBEG6.model.Producto;
 import com.example.DigitalBookingBEG6.model.Reserva;
+import com.example.DigitalBookingBEG6.model.Usuario;
 import com.example.DigitalBookingBEG6.model.dto.ReservaDTO;
+import com.example.DigitalBookingBEG6.model.dto.UsuarioDTO;
 import com.example.DigitalBookingBEG6.repository.ReservaRepository;
 import com.example.DigitalBookingBEG6.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,18 +34,7 @@ public class ReservaService implements BaseService<ReservaDTO> {
         Reserva reserva = genericModelMapper.mapToReserva(element);
         reserva.setUsuario(genericModelMapper.mapToUsuario(usuarioService.findByUsername(element.getUsername())));
 
-        System.out.println(reserva);
-        //reservaRepository.save(genericModelMapper.mapToReserva(element));
         return genericModelMapper.mapToReservaDTO(reservaRepository.save(reserva));
-    }
-
-    public List<ReservaDTO> findByIdProducto(Integer id) {
-        Producto producto = genericModelMapper.mapToProducto(productoService.getById(id));
-        List<Reserva> listadoReservas = reservaRepository.findByProducto(producto);
-        if(listadoReservas.isEmpty()){
-            throw new ResourceNotFoundException("NF-302", "No existen reservas correspondientes al producto "+id);
-        }
-        return listadoReservas.stream().map(e -> genericModelMapper.mapToReservaDTO(e)).collect(Collectors.toList());
     }
 
     @Override
@@ -77,4 +68,23 @@ public class ReservaService implements BaseService<ReservaDTO> {
 
         return genericModelMapper.mapToReservaDTO(reserva);
     }
+
+    public List<ReservaDTO> findByIdProducto(Integer id) {
+        Producto producto = genericModelMapper.mapToProducto(productoService.getById(id));
+        List<Reserva> listadoReservas = reservaRepository.findByProducto(producto);
+        if(listadoReservas.isEmpty()){
+            throw new ResourceNotFoundException("NF-302", "No existen reservas correspondientes al producto "+id);
+        }
+        return listadoReservas.stream().map(e -> genericModelMapper.mapToReservaDTO(e)).collect(Collectors.toList());
+    }
+
+    public List<ReservaDTO> findByIdUsuario(Integer id){
+        Usuario usuario = genericModelMapper.mapToUsuario(usuarioService.getById(id));
+        List<Reserva> listadoReservas = reservaRepository.findByUsuario(usuario);
+        if(listadoReservas.isEmpty()){
+            throw new ResourceNotFoundException("NF-302", "No existen reservas correspondientes al usuario "+usuario.getUsuarioId());
+        }
+        return listadoReservas.stream().map(e -> genericModelMapper.mapToReservaDTO(e)).collect(Collectors.toList());
+    }
+
 }

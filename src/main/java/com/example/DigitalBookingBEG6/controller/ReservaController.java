@@ -1,7 +1,5 @@
 package com.example.DigitalBookingBEG6.controller;
 
-import com.example.DigitalBookingBEG6.model.Producto;
-import com.example.DigitalBookingBEG6.model.Reserva;
 import com.example.DigitalBookingBEG6.model.dto.ReservaDTO;
 import com.example.DigitalBookingBEG6.service.impl.ProductoService;
 import com.example.DigitalBookingBEG6.service.impl.ReservaService;
