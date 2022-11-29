@@ -22,17 +22,17 @@ public class UsuarioController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<UsuarioDTO>> listAll(Model model) {
+    public ResponseEntity<List<UsuarioDTO>> getAll(Model model) {
         return ResponseEntity.ok(service.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UsuarioDTO> get(@PathVariable Integer id) {
+    public ResponseEntity<UsuarioDTO> getById(@PathVariable Integer id) {
         return ResponseEntity.ok(service.getById(id));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> borrar(@PathVariable Integer id){
+    public ResponseEntity<?> delete(@PathVariable Integer id){
         return ResponseEntity.status(204).body(service.delete(id));
     }
 

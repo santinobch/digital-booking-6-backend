@@ -25,22 +25,22 @@ public class CategoriaController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<CategoriaDTO>> listAll(Model model) {
+    public ResponseEntity<List<CategoriaDTO>> getAll(Model model) {
         return ResponseEntity.ok(service.getAll());
     }
 
     @PostMapping("/")
-    public ResponseEntity<CategoriaDTO> nuevo(@Valid @RequestBody CategoriaDTO categoriaDTO){
+    public ResponseEntity<CategoriaDTO> create(@Valid @RequestBody CategoriaDTO categoriaDTO){
         return ResponseEntity.status(201).body(service.save(categoriaDTO));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> borrar(@PathVariable Integer id){
+    public ResponseEntity<?> delete(@PathVariable Integer id){
         return ResponseEntity.status(204).body(service.delete(id));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> get(@PathVariable Integer id) {
+    public ResponseEntity<?> getById(@PathVariable Integer id) {
         return ResponseEntity.ok(service.getById(id));
     }
 

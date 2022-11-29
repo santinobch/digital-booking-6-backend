@@ -23,27 +23,27 @@ public class ReservaController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<?> nuevaReserva(@Valid @RequestBody ReservaDTO reservaDTO){
+    public ResponseEntity<?> create(@Valid @RequestBody ReservaDTO reservaDTO){
         return ResponseEntity.status(201).body(reservaService.save(reservaDTO));
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<ReservaDTO>> listAll(Model model) {
+    public ResponseEntity<List<ReservaDTO>> getAll(Model model) {
         return ResponseEntity.ok(reservaService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> get(@PathVariable (value = "id") Integer id) {
+    public ResponseEntity<?> getById(@PathVariable (value = "id") Integer id) {
         return ResponseEntity.ok(reservaService.getById(id));
     }
 
     @GetMapping("/product/{id}")
-    public ResponseEntity<?> getProductosByIdProducto(@PathVariable Integer id){
+    public ResponseEntity<?> getByIdProducto(@PathVariable Integer id){
         return ResponseEntity.ok(reservaService.findByIdProducto(id));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> borrar(@PathVariable Integer id){
+    public ResponseEntity<?> delete(@PathVariable Integer id){
         return ResponseEntity.status(204).body(reservaService.delete(id));
     }
 }

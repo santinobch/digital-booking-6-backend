@@ -25,17 +25,17 @@ public class ImagenController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Imagen>> listAll(Model model) {
+    public ResponseEntity<List<Imagen>> getAll(Model model) {
         return ResponseEntity.ok(service.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> get(@PathVariable(value = "id") Integer id) {
+    public ResponseEntity<?> getById(@PathVariable(value = "id") Integer id) {
         return ResponseEntity.ok(service.getById(id));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> borrar(@PathVariable Integer id){
+    public ResponseEntity<?> delete(@PathVariable Integer id){
         return ResponseEntity.status(204).body(service.delete(id));
     }
 
