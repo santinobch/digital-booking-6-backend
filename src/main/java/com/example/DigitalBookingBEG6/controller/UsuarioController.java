@@ -3,6 +3,7 @@ package com.example.DigitalBookingBEG6.controller;
 import com.example.DigitalBookingBEG6.model.dto.UsuarioDTO;
 import com.example.DigitalBookingBEG6.service.impl.ReservaService;
 import com.example.DigitalBookingBEG6.service.impl.UsuarioService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,11 +22,13 @@ public class UsuarioController {
         this.reservaService = reservaService;
     }
 
+    @Operation(summary = "Get list of all users")
     @GetMapping("/")
     public ResponseEntity<List<UsuarioDTO>> getAll(Model model) {
         return ResponseEntity.ok(service.getAll());
     }
 
+    @Operation(summary = "Get user by its id")
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioDTO> getById(@PathVariable Integer id) {
         return ResponseEntity.ok(service.getById(id));

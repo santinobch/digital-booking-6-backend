@@ -82,7 +82,7 @@ public class UsuarioService implements BaseService<UsuarioDTO>{
             throw new BusinessException("BL-101", "El mail ya se encuentra registrado", HttpStatus.CONFLICT);
         }
         Usuario usuario = genericModelMapper.mapToUsuarioCreacion(element);
-        usuario.setUsuarioRol(genericModelMapper.mapToRol(rolService.getByNombre(element.getRol())));
+        usuario.setUsuarioRol(genericModelMapper.mapToRol(rolService.getByNombre("Usuario")));
 
         return genericModelMapper.mapToUsuarioDTO(usuarioRepository.save(usuario));
     }

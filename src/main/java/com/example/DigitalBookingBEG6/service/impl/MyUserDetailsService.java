@@ -27,6 +27,6 @@ public class MyUserDetailsService implements UserDetailsService {
         Set<GrantedAuthority> autorizaciones = new HashSet();
         autorizaciones.add(new SimpleGrantedAuthority(rol));
 
-        return new User(username, "{noop}"+usuario.getUsuarioPassword(), true, true, true, true, autorizaciones);
+        return new User(username, usuario.getUsuarioPassword(), true, true, true, true, autorizaciones);
     }
 }
