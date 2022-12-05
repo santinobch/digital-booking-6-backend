@@ -46,6 +46,12 @@ public class Producto {
             joinColumns = @JoinColumn(name = "id_productos"),
             inverseJoinColumns = @JoinColumn(name="id_caracteristica"))
     private List<Caracteristica> caracteristicas;
+    @Column(name="house_rules_policy", length = 1000)
+    private String houseRulesPolicy;
+    @Column(name="health_security_policy", length = 1000)
+    private String healthAndSecurityPolicy;
+    @Column(name="cancellation_policy", length = 1000)
+    private String cancellationPolicy;
 
     public Producto(String titulo, String descripcion, Categoria categoria, Ciudad ciudad, List<Imagen> imagenes, List<Caracteristica> caracteristicas) {
         this.productoTitulo = titulo;

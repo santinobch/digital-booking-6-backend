@@ -1,8 +1,6 @@
 package com.example.DigitalBookingBEG6.service.impl;
 
 import com.example.DigitalBookingBEG6.model.Usuario;
-import com.example.DigitalBookingBEG6.model.dto.UsuarioDTO;
-import com.example.DigitalBookingBEG6.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
