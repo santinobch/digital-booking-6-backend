@@ -4,6 +4,7 @@ import com.example.DigitalBookingBEG6.jwt.JwtUtil;
 import com.example.DigitalBookingBEG6.model.Usuario;
 import com.example.DigitalBookingBEG6.model.dto.AuthenticationRequestDTO;
 import com.example.DigitalBookingBEG6.model.dto.AuthenticationResponseDTO;
+import com.example.DigitalBookingBEG6.model.dto.UsuarioCreacionDTO;
 import com.example.DigitalBookingBEG6.model.dto.UsuarioDTO;
 import com.example.DigitalBookingBEG6.repository.UsuarioRepository;
 import com.example.DigitalBookingBEG6.service.impl.UsuarioService;
@@ -15,11 +16,13 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
@@ -33,6 +36,8 @@ public class AuthenticationController {
     private UsuarioService usuarioService;
     @Autowired
     private JwtUtil jwtUtil;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @PostMapping(value = "/auth/")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequestDTO AuthenticationRequestDTO) throws Exception{
@@ -48,5 +53,11 @@ public class AuthenticationController {
         } catch (BadCredentialsException e) {
             throw new Exception("Credenciales incorrectas", e);
         }
+    }
+
+    @PostMapping("/signup")
+    public ResponseEntity<UsuarioDTO> registerUser(@Valid @RequestBody UsuarioCreacionDTO usuarioCreacionDTO){
+        usuarioCreacionDTO.setPassword(passwordEncoder.encode(usuarioCreacionDTO.getPassword()));
+        return ResponseEntity.status(201).body(usuarioService.register(usuarioCreacionDTO));
     }
 }

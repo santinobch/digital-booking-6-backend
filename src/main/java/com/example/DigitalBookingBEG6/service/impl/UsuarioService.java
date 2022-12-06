@@ -8,7 +8,6 @@ import com.example.DigitalBookingBEG6.model.dto.UsuarioCreacionDTO;
 import com.example.DigitalBookingBEG6.model.dto.UsuarioDTO;
 import com.example.DigitalBookingBEG6.repository.UsuarioRepository;
 import com.example.DigitalBookingBEG6.service.BaseService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -83,7 +82,7 @@ public class UsuarioService implements BaseService<UsuarioDTO>{
             throw new BusinessException("BL-101", "El mail ya se encuentra registrado", HttpStatus.CONFLICT);
         }
         Usuario usuario = genericModelMapper.mapToUsuarioCreacion(element);
-        usuario.setUsuarioRol(genericModelMapper.mapToRol(rolService.getByNombre(element.getRol())));
+        usuario.setUsuarioRol(genericModelMapper.mapToRol(rolService.getByNombre("Usuario")));
 
         return genericModelMapper.mapToUsuarioDTO(usuarioRepository.save(usuario));
     }

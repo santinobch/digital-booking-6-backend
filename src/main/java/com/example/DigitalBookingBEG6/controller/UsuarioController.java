@@ -1,40 +1,41 @@
 package com.example.DigitalBookingBEG6.controller;
 
-import com.example.DigitalBookingBEG6.model.Rol;
-import com.example.DigitalBookingBEG6.model.Usuario;
 import com.example.DigitalBookingBEG6.model.dto.UsuarioDTO;
+import com.example.DigitalBookingBEG6.service.impl.ReservaService;
 import com.example.DigitalBookingBEG6.service.impl.UsuarioService;
-import org.springframework.http.HttpStatus;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin
 @RequestMapping("/users")
 public class UsuarioController {
     private final UsuarioService service;
+    private final ReservaService reservaService;
 
-    public UsuarioController(UsuarioService service) {
+    public UsuarioController(UsuarioService service, ReservaService reservaService) {
         this.service = service;
+        this.reservaService = reservaService;
     }
 
+    @Operation(summary = "Get list of all users")
     @GetMapping("/")
-    public ResponseEntity<List<UsuarioDTO>> listAll(Model model) {
+    public ResponseEntity<List<UsuarioDTO>> getAll(Model model) {
         return ResponseEntity.ok(service.getAll());
     }
 
+    @Operation(summary = "Get user by its id")
     @GetMapping("/{id}")
-    public ResponseEntity<UsuarioDTO> get(@PathVariable Integer id) {
+    public ResponseEntity<UsuarioDTO> getById(@PathVariable Integer id) {
         return ResponseEntity.ok(service.getById(id));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> borrar(@PathVariable Integer id){
+    public ResponseEntity<?> delete(@PathVariable Integer id){
         return ResponseEntity.status(204).body(service.delete(id));
     }
 
@@ -46,5 +47,10 @@ public class UsuarioController {
     @GetMapping()
     public ResponseEntity<?> getByUsername(@RequestParam(value = "username") String username){
         return ResponseEntity.ok(service.findByUsername(username));
+    }
+
+    @GetMapping("/{id}/bookings")
+    public ResponseEntity<?> getBookingsByUsername(@PathVariable Integer id){
+        return ResponseEntity.ok(reservaService.findByIdUsuario(id));
     }
 }

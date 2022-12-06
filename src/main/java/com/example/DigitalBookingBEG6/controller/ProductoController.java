@@ -27,22 +27,22 @@ public class ProductoController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<ProductoDTO>> listAll(Model model) {
+    public ResponseEntity<List<ProductoDTO>> getAll(Model model) {
         return ResponseEntity.ok(service.getAll());
     }
 
     @PostMapping("/")
-    public ResponseEntity<ProductoDTO> nuevo(@Valid @RequestBody ProductoDTO productoDTO){
+    public ResponseEntity<ProductoDTO> create(@Valid @RequestBody ProductoDTO productoDTO){
         return ResponseEntity.status(201).body(service.save(productoDTO));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> borrar(@PathVariable Integer id){
+    public ResponseEntity<?> delete(@PathVariable Integer id){
         return ResponseEntity.status(204).body(service.delete(id));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> get(@PathVariable (value = "id") Integer id) {
+    public ResponseEntity<?> getById(@PathVariable (value = "id") Integer id) {
         return ResponseEntity.ok(service.getById(id));
     }
 
@@ -63,7 +63,7 @@ public class ProductoController {
 
     @GetMapping("/dates")
     public ResponseEntity<?> getProductosBetweenDates(@RequestParam(value = "from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)LocalDate fechaInicio,
-                                                               @RequestParam(value = "to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin)
+                                                      @RequestParam(value = "to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin)
     {
         return ResponseEntity.ok(service.getProductosBetweenDates(fechaInicio, fechaFin));
     }

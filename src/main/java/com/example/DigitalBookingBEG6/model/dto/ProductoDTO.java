@@ -23,4 +23,7 @@ public class ProductoDTO {
     private String tituloCategoria;
     private List<Imagen> imagenes;
     private List<Caracteristica> caracteristicas;
+    private String houseRulesPolicy;
+    private String healthAndSecurityPolicy;
+    private String cancellationPolicy;
 }

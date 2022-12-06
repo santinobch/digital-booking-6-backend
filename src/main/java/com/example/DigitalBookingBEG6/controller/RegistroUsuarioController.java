@@ -20,7 +20,7 @@ public class RegistroUsuarioController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<UsuarioDTO> nuevo(@Valid @RequestBody UsuarioCreacionDTO usuarioCreacionDTO){
+    public ResponseEntity<UsuarioDTO> create(@Valid @RequestBody UsuarioCreacionDTO usuarioCreacionDTO){
         return ResponseEntity.status(201).body(service.register(usuarioCreacionDTO));
     }
 }

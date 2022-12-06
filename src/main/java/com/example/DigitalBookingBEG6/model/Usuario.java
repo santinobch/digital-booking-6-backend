@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -34,6 +35,7 @@ public class Usuario {
     @Column(name="email")
     @Email
     @NotEmpty
+    @Size(min = 6, max = 20)
     private String usuarioEmail;
     @Column(name="password")
     @NotEmpty
