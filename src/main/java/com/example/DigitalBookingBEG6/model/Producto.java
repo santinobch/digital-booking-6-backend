@@ -38,7 +38,8 @@ public class Producto {
     @NotNull
     private Ciudad ciudad;
     @JsonManagedReference
-    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
+    @NotNull
     private List<Imagen> imagenes;
 
     @ManyToMany

@@ -31,4 +31,8 @@ public class Ciudad {
         this.ciudadNombre = nombre;
         this.ciudadPais = pais;
     }
+
+    public Ciudad(Integer id){
+        this.ciudadId = id;
+    }
 }

@@ -77,4 +77,11 @@ public class GenericModelMapper {
                 .addMapping(UsuarioDTO::getRol, Usuario::setUsuarioRol)
                 .map(usuarioCreacionDTO);
     }
+
+    public Producto mapToProductoCreacion(ProductoCreacionDTO productoCreacionDTO){
+        return mapper.emptyTypeMap(ProductoCreacionDTO.class, Producto.class)
+                .addMappings(m -> m.skip(Producto::setProductoId))
+                .implicitMappings()
+                .map(productoCreacionDTO);
+    }
 }

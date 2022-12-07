@@ -1,6 +1,7 @@
 package com.example.DigitalBookingBEG6.controller;
 
 import com.example.DigitalBookingBEG6.model.Producto;
+import com.example.DigitalBookingBEG6.model.dto.ProductoCreacionDTO;
 import com.example.DigitalBookingBEG6.model.dto.ProductoDTO;
 import com.example.DigitalBookingBEG6.service.impl.CategoriaService;
 import com.example.DigitalBookingBEG6.service.impl.CiudadService;
@@ -32,8 +33,8 @@ public class ProductoController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<ProductoDTO> create(@Valid @RequestBody ProductoDTO productoDTO){
-        return ResponseEntity.status(201).body(service.save(productoDTO));
+    public ResponseEntity<ProductoDTO> create(@Valid @RequestBody ProductoCreacionDTO productoCreacionDTO){
+        return ResponseEntity.status(201).body(service.create(productoCreacionDTO));
     }
 
     @DeleteMapping("/{id}")

@@ -30,4 +30,8 @@ public class Categoria {
         this.categoriaDescripcion = descripcion;
         this.categoriaUrl = url;
     }
+
+    public Categoria(Integer id){
+        this.categoriaId = id;
+    }
 }
