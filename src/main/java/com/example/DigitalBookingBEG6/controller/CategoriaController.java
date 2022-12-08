@@ -31,7 +31,7 @@ public class CategoriaController {
 
     @PostMapping("/")
     public ResponseEntity<CategoriaDTO> create(@Valid @RequestBody CategoriaDTO categoriaDTO){
-        return ResponseEntity.status(201).body(service.save(categoriaDTO));
+        return ResponseEntity.status(201).body(service.create(categoriaDTO));
     }
 
     @DeleteMapping("/{id}")
