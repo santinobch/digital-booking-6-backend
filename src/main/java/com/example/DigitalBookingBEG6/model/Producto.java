@@ -54,13 +54,16 @@ public class Producto {
     @Column(name="cancellation_policy", length = 1000)
     private String cancellationPolicy;
 
-    public Producto(String titulo, String descripcion, Categoria categoria, Ciudad ciudad, List<Imagen> imagenes, List<Caracteristica> caracteristicas) {
-        this.productoTitulo = titulo;
-        this.productoDescripcion = descripcion;
+    public Producto(String productoTitulo, String productoDescripcion, Categoria categoria, Ciudad ciudad, List<Imagen> imagenes, List<Caracteristica> caracteristicas, String houseRulesPolicy, String healthAndSecurityPolicy, String cancellationPolicy) {
+        this.productoTitulo = productoTitulo;
+        this.productoDescripcion = productoDescripcion;
         this.categoria = categoria;
         this.ciudad = ciudad;
         this.imagenes = imagenes;
         this.caracteristicas = caracteristicas;
+        this.houseRulesPolicy = houseRulesPolicy;
+        this.healthAndSecurityPolicy = healthAndSecurityPolicy;
+        this.cancellationPolicy = cancellationPolicy;
     }
 
     public Producto(Integer id){

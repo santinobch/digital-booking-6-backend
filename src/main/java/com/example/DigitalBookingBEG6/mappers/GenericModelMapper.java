@@ -3,6 +3,7 @@ package com.example.DigitalBookingBEG6.mappers;
 import com.example.DigitalBookingBEG6.model.*;
 import com.example.DigitalBookingBEG6.model.dto.*;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.stereotype.Component;
 
 
@@ -83,7 +84,8 @@ public class GenericModelMapper {
     }
 
     public Producto mapToProductoCreacion(ProductoCreacionDTO productoCreacionDTO){
-        return mapper.emptyTypeMap(ProductoCreacionDTO.class, Producto.class)
+        mapper.getConfiguration().setAmbiguityIgnored(true);
+        return mapper.typeMap(ProductoCreacionDTO.class, Producto.class)
                 .addMappings(m -> m.skip(Producto::setProductoId))
                 .implicitMappings()
                 .map(productoCreacionDTO);
