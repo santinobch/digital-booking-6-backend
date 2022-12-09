@@ -48,6 +48,10 @@ public class GenericModelMapper {
         return mapper.typeMap(CategoriaDTO.class, Categoria.class).map(categoriaDTO);
     }
 
+    public CaracteristicaDTO mapToCaracteristicaDTO (Caracteristica caracteristica){
+        return mapper.typeMap(Caracteristica.class, CaracteristicaDTO.class).map(caracteristica);
+    }
+
     public CiudadDTO mapToCiudadDTO(Ciudad ciudad){
         return mapper.typeMap(Ciudad.class, CiudadDTO.class).map(ciudad);
     }
