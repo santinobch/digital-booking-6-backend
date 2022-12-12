@@ -1,8 +1,6 @@
 package com.example.DigitalBookingBEG6.service.impl;
 
 import com.example.DigitalBookingBEG6.model.Usuario;
-import com.example.DigitalBookingBEG6.model.dto.UsuarioDTO;
-import com.example.DigitalBookingBEG6.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,6 +25,6 @@ public class MyUserDetailsService implements UserDetailsService {
         Set<GrantedAuthority> autorizaciones = new HashSet();
         autorizaciones.add(new SimpleGrantedAuthority(rol));
 
-        return new User(username, "{noop}"+usuario.getUsuarioPassword(), true, true, true, true, autorizaciones);
+        return new User(username, usuario.getUsuarioPassword(), true, true, true, true, autorizaciones);
     }
 }

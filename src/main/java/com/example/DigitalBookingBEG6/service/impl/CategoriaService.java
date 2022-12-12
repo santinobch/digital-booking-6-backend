@@ -28,11 +28,15 @@ public class CategoriaService implements BaseService<CategoriaDTO> {
 
     @Override
     public CategoriaDTO save(CategoriaDTO element) {
-        if(categoriaRepository.findByCategoriaTitulo(element.getTitulo()) != null){
-            throw new BusinessException("BL-600", "La categoría ya se encuentra registrada", HttpStatus.CONFLICT);
-        }
         Categoria categoria = categoriaRepository.save(genericModelMapper.mapToCategoria(element));
         return genericModelMapper.mapToCategoriaDTO(categoria);
+    }
+
+    public CategoriaDTO create(CategoriaDTO categoriaDTO){
+        if(categoriaRepository.findByCategoriaTitulo(categoriaDTO.getTitulo()) != null){
+            throw new BusinessException("BL-600", "La categoría ya se encuentra registrada", HttpStatus.CONFLICT);
+        }
+        return this.save(categoriaDTO);
     }
 
     @Override
@@ -57,6 +61,7 @@ public class CategoriaService implements BaseService<CategoriaDTO> {
 
     @Override
     public CategoriaDTO modify(Integer id, CategoriaDTO element) {
+        element.setId(id);
         Optional<Categoria> opt = categoriaRepository.findById(id);
         if (opt.isEmpty()) {
             throw new ResourceNotFoundException("NF-601", "No existe la categoría con ID " + id);

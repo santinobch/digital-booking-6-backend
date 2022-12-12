@@ -4,8 +4,13 @@ import com.example.DigitalBookingBEG6.exceptions.BadRequestException;
 import com.example.DigitalBookingBEG6.exceptions.BusinessException;
 import com.example.DigitalBookingBEG6.exceptions.ResourceNotFoundException;
 import com.example.DigitalBookingBEG6.mappers.GenericModelMapper;
+import com.example.DigitalBookingBEG6.model.Imagen;
 import com.example.DigitalBookingBEG6.model.Producto;
+import com.example.DigitalBookingBEG6.model.Usuario;
+import com.example.DigitalBookingBEG6.model.dto.ProductoCreacionDTO;
 import com.example.DigitalBookingBEG6.model.dto.ProductoDTO;
+import com.example.DigitalBookingBEG6.model.dto.UsuarioCreacionDTO;
+import com.example.DigitalBookingBEG6.model.dto.UsuarioDTO;
 import com.example.DigitalBookingBEG6.repository.ProductoRepository;
 import com.example.DigitalBookingBEG6.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +35,6 @@ public class ProductoService implements BaseService<ProductoDTO> {
 
     @Override
     public ProductoDTO save(ProductoDTO element) {
-        if(productoRepository.findByProductoTitulo(element.getTitulo()) != null){
-            throw new BusinessException("BL-200", "El titulo del producto ya se encuentra registrado", HttpStatus.CONFLICT);
-        }
         Producto producto = productoRepository.save(genericModelMapper.mapToProducto(element));
         return genericModelMapper.mapToProductoDTO(producto);
     }
@@ -70,6 +72,17 @@ public class ProductoService implements BaseService<ProductoDTO> {
         Producto producto = productoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("NF-201", "No existe el producto con ID " + id));
         return genericModelMapper.mapToProductoDTO(producto);
+    }
+
+    public ProductoDTO create(ProductoCreacionDTO element){
+        if(productoRepository.findByProductoTitulo(element.getTitulo()) != null){
+            throw new BusinessException("BL-200", "El titulo del producto ya se encuentra registrado", HttpStatus.CONFLICT);
+        }
+        Producto producto = genericModelMapper.mapToProductoCreacion(element);
+        for(Imagen i : producto.getImagenes()){
+            i.setProducto(producto);
+        }
+        return genericModelMapper.mapToProductoDTO(productoRepository.save(producto));
     }
 
     public List<Producto> obtener4RandomProductos(){

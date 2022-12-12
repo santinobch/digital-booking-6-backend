@@ -23,22 +23,22 @@ public class RolController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<RolDTO>> listAll(Model model) {
+    public ResponseEntity<List<RolDTO>> getAll(Model model) {
         return ResponseEntity.ok(service.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> get(@PathVariable (value = "id", required = true) Integer id) {
+    public ResponseEntity<?> getById(@PathVariable (value = "id", required = true) Integer id) {
         return ResponseEntity.ok(service.getById(id));
     }
 
     @PostMapping("/")
-    public ResponseEntity<RolDTO> nuevo(@Valid @RequestBody RolDTO rolDTO){
+    public ResponseEntity<RolDTO> create(@Valid @RequestBody RolDTO rolDTO){
         return ResponseEntity.status(201).body(service.save(rolDTO));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> borrar(@PathVariable Integer id){
+    public ResponseEntity<?> delete(@PathVariable Integer id){
         return ResponseEntity.status(204).body(service.delete(id));
     }
 }

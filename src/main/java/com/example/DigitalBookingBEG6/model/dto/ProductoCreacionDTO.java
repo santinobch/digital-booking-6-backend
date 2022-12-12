@@ -1,7 +1,6 @@
 package com.example.DigitalBookingBEG6.model.dto;
 
 import com.example.DigitalBookingBEG6.model.Caracteristica;
-import com.example.DigitalBookingBEG6.model.Ciudad;
 import com.example.DigitalBookingBEG6.model.Imagen;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,13 +13,11 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductoDTO {
-    private Integer idProducto;
+public class ProductoCreacionDTO {
     private String titulo;
     private String descripcion;
-    private String ciudadNombre;
-    private String ciudadPais;
-    private String tituloCategoria;
+    private Integer idCiudad;
+    private Integer idCategoria;
     private List<Imagen> imagenes;
     private List<Caracteristica> caracteristicas;
     private String houseRulesPolicy;

@@ -17,19 +17,21 @@ public class Imagen {
     @Column(name="id_imagen")
     private Integer imagenId;
     @Column(name="titulo")
-    @NotNull
     private String imagenTitulo;
     @Column(name="url")
     @NotEmpty
     private String imagenUrl;
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(optional = false, cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name="id_producto")
-    @NotNull
     private Producto producto;
 
     public Imagen(String titulo, String url){
         this.imagenTitulo = titulo;
         this.imagenUrl = url;
+    }
+
+    public Imagen(String imagenUrl){
+        this.imagenUrl = imagenUrl;
     }
 }

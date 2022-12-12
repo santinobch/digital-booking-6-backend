@@ -38,7 +38,8 @@ public class Producto {
     @NotNull
     private Ciudad ciudad;
     @JsonManagedReference
-    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
+    @NotNull
     private List<Imagen> imagenes;
 
     @ManyToMany
@@ -46,14 +47,23 @@ public class Producto {
             joinColumns = @JoinColumn(name = "id_productos"),
             inverseJoinColumns = @JoinColumn(name="id_caracteristica"))
     private List<Caracteristica> caracteristicas;
+    @Column(name="house_rules_policy", length = 1000)
+    private String houseRulesPolicy;
+    @Column(name="health_security_policy", length = 1000)
+    private String healthAndSecurityPolicy;
+    @Column(name="cancellation_policy", length = 1000)
+    private String cancellationPolicy;
 
-    public Producto(String titulo, String descripcion, Categoria categoria, Ciudad ciudad, List<Imagen> imagenes, List<Caracteristica> caracteristicas) {
-        this.productoTitulo = titulo;
-        this.productoDescripcion = descripcion;
+    public Producto(String productoTitulo, String productoDescripcion, Categoria categoria, Ciudad ciudad, List<Imagen> imagenes, List<Caracteristica> caracteristicas, String houseRulesPolicy, String healthAndSecurityPolicy, String cancellationPolicy) {
+        this.productoTitulo = productoTitulo;
+        this.productoDescripcion = productoDescripcion;
         this.categoria = categoria;
         this.ciudad = ciudad;
         this.imagenes = imagenes;
         this.caracteristicas = caracteristicas;
+        this.houseRulesPolicy = houseRulesPolicy;
+        this.healthAndSecurityPolicy = healthAndSecurityPolicy;
+        this.cancellationPolicy = cancellationPolicy;
     }
 
     public Producto(Integer id){
