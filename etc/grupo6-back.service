@@ -1,0 +1,11 @@
+[Unit]
+Description=Java PI service
+
+[Service]
+User=root
+WorkingDirectory=/home/ec2-user
+ExecStart=source DB_VARIABLES && nohup sudo java -Dserver.port=8080 -DDB_ENDPOINT=$DB_ENDPOINT -DDB_NAME=$DB_NAME -DDB_USER=$DB_USER -DDB_PW=$DB_PW -jar DigitalBooking-BE-G6-0.0.1-SNAPSHOT.jar > /dev/null
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -35,3 +35,12 @@ build/
 .~lock.Diccionario de errores.ods#
 
 .~lock.Diccionario de errores.xlsx#
+
+### Terraform ###
+*.tfstate
+*.tfvars
+*.terraform
+*.backup
+*.hcl
+*.pem
+*.pub
